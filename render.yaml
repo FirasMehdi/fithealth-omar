@@ -1,0 +1,53 @@
+databases:
+  - name: fithealth-db
+    databaseName: fithealth
+    user: fithealth
+    plan: free
+
+services:
+  - type: web
+    name: fithealth-omar
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_NAME
+        value: FitHealth
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false # set manually in the Render dashboard, see deploy guide
+      - key: APP_LOCALE
+        value: fr
+      - key: APP_FALLBACK_LOCALE
+        value: fr
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: fithealth-db
+          property: host
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_DATABASE
+        fromDatabase:
+          name: fithealth-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: fithealth-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: fithealth-db
+          property: password
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
