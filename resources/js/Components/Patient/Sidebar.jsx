@@ -1,5 +1,6 @@
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { ClipboardList, Heart, Home, LogOut, MessageSquare } from 'lucide-react';
+import { ClipboardList, Heart, Home, LogOut, Menu, MessageSquare, X } from 'lucide-react';
+import { useState } from 'react';
 
 const NAV_ITEMS = [
     { label: 'Accueil', href: '/patient/dashboard', icon: Home },
@@ -20,6 +21,7 @@ export default function Sidebar() {
     const { url, props } = usePage();
     const user = props.auth.user;
     const { post, processing } = useForm();
+    const [open, setOpen] = useState(false);
 
     function logout(e) {
         e.preventDefault();
@@ -27,52 +29,73 @@ export default function Sidebar() {
     }
 
     return (
-        <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col bg-forest px-4 py-6">
-            <div className="mb-5 ml-2 self-start whitespace-nowrap">
-                <span className="font-display text-xl font-semibold text-white">Patient</span>
-                <span className="font-display text-xl font-semibold text-white"> Panel</span>
+        <>
+            <div className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-3 bg-forest px-4 lg:hidden">
+                <button type="button" onClick={() => setOpen(true)} aria-label="Ouvrir le menu" className="text-cream">
+                    <Menu size={22} />
+                </button>
+                <span className="font-display text-lg font-semibold text-white">Patient Panel</span>
             </div>
 
-            <div className="mb-5 border-t border-cream/15" />
+            {open && <div onClick={() => setOpen(false)} className="fixed inset-0 z-40 bg-forest/50 lg:hidden" />}
 
-            <nav className="flex flex-1 flex-col gap-0.5">
-                {NAV_ITEMS.map((item) => {
-                    const active = url.startsWith(item.href);
-                    const Icon = item.icon;
-
-                    return (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className={
-                                'flex items-center gap-3 rounded-xl px-3 py-2.75 text-sm font-semibold whitespace-nowrap ' +
-                                (active ? 'bg-sage text-forest' : 'text-cream/70 hover:bg-cream/10')
-                            }
-                        >
-                            <Icon size={18} className="shrink-0" />
-                            {item.label}
-                        </Link>
-                    );
-                })}
-            </nav>
-
-            <button
-                type="button"
-                onClick={logout}
-                disabled={processing}
-                className="mt-2 -mb-6 flex items-center gap-2.5 rounded-xl border-t border-cream/15 px-3 pt-3.5 pb-3.5 text-left "
+            <aside
+                className={
+                    'fixed inset-y-0 left-0 z-50 flex h-screen w-60 shrink-0 flex-col bg-forest px-4 py-6 transition-transform duration-200 lg:sticky lg:top-0 lg:translate-x-0 ' +
+                    (open ? 'translate-x-0' : '-translate-x-full')
+                }
             >
-                <span className="flex size-8.5 shrink-0 items-center justify-center rounded-full bg-sage text-sm font-bold text-forest">
-                    {initials(user.name)}
-                </span>
-                <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-semibold text-cream">{user.name}</span>
-                    <span className="flex items-center gap-1 text-xs text-cream/60 cursor-pointer">
-                        <LogOut size={12}  />
-                        Déconnexion
+                <button type="button" onClick={() => setOpen(false)} aria-label="Fermer le menu" className="mb-3 self-end text-cream lg:hidden">
+                    <X size={20} />
+                </button>
+
+                <div className="mb-5 ml-2 self-start whitespace-nowrap">
+                    <span className="font-display text-xl font-semibold text-white">Patient</span>
+                    <span className="font-display text-xl font-semibold text-white"> Panel</span>
+                </div>
+
+                <div className="mb-5 border-t border-cream/15" />
+
+                <nav className="flex flex-1 flex-col gap-0.5">
+                    {NAV_ITEMS.map((item) => {
+                        const active = url.startsWith(item.href);
+                        const Icon = item.icon;
+
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setOpen(false)}
+                                className={
+                                    'flex items-center gap-3 rounded-xl px-3 py-2.75 text-sm font-semibold whitespace-nowrap ' +
+                                    (active ? 'bg-sage text-forest' : 'text-cream/70 hover:bg-cream/10')
+                                }
+                            >
+                                <Icon size={18} className="shrink-0" />
+                                {item.label}
+                            </Link>
+                        );
+                    })}
+                </nav>
+
+                <button
+                    type="button"
+                    onClick={logout}
+                    disabled={processing}
+                    className="mt-2 -mb-6 flex items-center gap-2.5 rounded-xl border-t border-cream/15 px-3 pt-3.5 pb-3.5 text-left"
+                >
+                    <span className="flex size-8.5 shrink-0 items-center justify-center rounded-full bg-sage text-sm font-bold text-forest">
+                        {initials(user.name)}
                     </span>
-                </span>
-            </button>
-        </aside>
+                    <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-semibold text-cream">{user.name}</span>
+                        <span className="flex items-center gap-1 text-xs text-cream/60">
+                            <LogOut size={12} />
+                            Déconnexion
+                        </span>
+                    </span>
+                </button>
+            </aside>
+        </>
     );
 }

@@ -96,8 +96,8 @@ export default function ProtocoleIndex({ weekPlan }) {
                             {weekPlan[selected].sport.length === 0 && weekPlan[selected].nutrition.length === 0 ? (
                                 <RestDayState />
                             ) : (
-                                <div className="grid gap-8" style={{ gridTemplateColumns: '1fr 1fr' }}>
-                                    <div className="border-r border-sand/30 pr-8">
+                                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+                                    <div className="border-b border-sand/30 pb-6 sm:border-r sm:border-b-0 sm:pr-8 sm:pb-0">
                                         <ColumnHeader icon={Dumbbell} label="Sport" />
                                         {weekPlan[selected].sport.length === 0 ? (
                                             <p className="text-sm text-forest/40">Aucune séance ce jour.</p>
