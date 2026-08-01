@@ -58,7 +58,7 @@ export default function AddPatientModal({ open, onClose }) {
                     />
                 </Field>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <Field label="Email" htmlFor="patient-email" error={errors.email}>
                         <input
                             id="patient-email"
@@ -79,7 +79,7 @@ export default function AddPatientModal({ open, onClose }) {
                     </Field>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <Field label="Téléphone" htmlFor="patient-phone" error={errors.phone}>
                         <input
                             id="patient-phone"
@@ -100,7 +100,7 @@ export default function AddPatientModal({ open, onClose }) {
                     </Field>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <Field label="Sexe" htmlFor="patient-sex" error={errors.sex}>
                         <select
                             id="patient-sex"
@@ -125,7 +125,7 @@ export default function AddPatientModal({ open, onClose }) {
                     </Field>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <Field label="Taille (cm)" htmlFor="patient-height" error={errors.height_cm}>
                         <input
                             id="patient-height"

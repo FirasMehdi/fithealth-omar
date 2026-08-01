@@ -97,8 +97,8 @@ function ItemRow({ item, onChange, onRemove, canRemove }) {
 
     return (
         <div className="rounded-xl border border-sand/50 p-3.5">
-            <div className="mb-2 flex items-start gap-2">
-                <select value={item.pillar} onChange={(e) => set('pillar', e.target.value)} className={inputClass}>
+            <div className="mb-2 flex flex-wrap items-start gap-2">
+                <select value={item.pillar} onChange={(e) => set('pillar', e.target.value)} className={inputClass + ' shrink-0'}>
                     <option value="mouvement">Mouvement</option>
                     <option value="nutrition">Nutrition</option>
                 </select>
@@ -107,7 +107,7 @@ function ItemRow({ item, onChange, onRemove, canRemove }) {
                     placeholder="Titre"
                     value={item.title}
                     onChange={(e) => set('title', e.target.value)}
-                    className={inputClass + ' flex-1'}
+                    className={inputClass + ' min-w-0 flex-1 basis-40'}
                 />
                 <button
                     type="button"
@@ -120,21 +120,21 @@ function ItemRow({ item, onChange, onRemove, canRemove }) {
             </div>
 
             {isMouvement && (
-                <div className="mb-2 flex gap-2">
+                <div className="mb-2 flex flex-wrap gap-2">
                     <input
                         type="number"
                         min="1"
                         placeholder="Séries"
                         value={item.sets}
                         onChange={(e) => set('sets', e.target.value)}
-                        className={inputClass + ' w-1/2'}
+                        className={inputClass + ' min-w-0 flex-1 basis-24'}
                     />
                     <input
                         type="text"
                         placeholder="Volume (12 reps, 30 min…)"
                         value={item.reps}
                         onChange={(e) => set('reps', e.target.value)}
-                        className={inputClass + ' w-1/2'}
+                        className={inputClass + ' min-w-0 flex-1 basis-40'}
                     />
                 </div>
             )}

@@ -86,20 +86,25 @@ function MouvementNutritionCard({ mouvementItems, nutritionItems, open, onToggle
 
                     <div className="flex-1">
                         {mouvementItems.length > 0 && (
-                            <div className="grid gap-x-3 gap-y-2 text-sm" style={{ gridTemplateColumns: '1.6fr 0.7fr 0.9fr 1.1fr' }}>
-                                <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Exercice</div>
-                                <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Séries</div>
-                                <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Volume</div>
-                                <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Jours</div>
+                            <div className="overflow-x-auto">
+                                <div
+                                    className="grid gap-x-3 gap-y-2 text-sm"
+                                    style={{ gridTemplateColumns: '1.6fr 0.7fr 0.9fr 1.1fr', minWidth: '360px' }}
+                                >
+                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Exercice</div>
+                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Séries</div>
+                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Volume</div>
+                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Jours</div>
 
-                                {mouvementItems.map((item) => (
-                                    <div key={item.title} className="contents">
-                                        <div className="border-t border-sand/30 py-2 font-medium text-forest">{item.title}</div>
-                                        <div className="border-t border-sand/30 py-2 tabular-nums text-forest">{item.sets ?? '—'}</div>
-                                        <div className="border-t border-sand/30 py-2 tabular-nums text-forest">{item.reps ?? '—'}</div>
-                                        <div className="border-t border-sand/30 py-2 text-forest/60">{item.days}</div>
-                                    </div>
-                                ))}
+                                    {mouvementItems.map((item) => (
+                                        <div key={item.title} className="contents">
+                                            <div className="border-t border-sand/30 py-2 font-medium text-forest">{item.title}</div>
+                                            <div className="border-t border-sand/30 py-2 tabular-nums text-forest">{item.sets ?? '—'}</div>
+                                            <div className="border-t border-sand/30 py-2 tabular-nums text-forest">{item.reps ?? '—'}</div>
+                                            <div className="border-t border-sand/30 py-2 text-forest/60">{item.days}</div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         )}
                         <div className="mt-3.5">
@@ -218,7 +223,7 @@ function CheckinHistoryCard({ checkins }) {
 
 function SuiviTab({ weekPlan, checkins }) {
     return (
-        <div className="grid gap-6" style={{ gridTemplateColumns: '1.1fr 1fr' }}>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.1fr_1fr]">
             <WeekPlanCard weekPlan={weekPlan} />
             <CheckinHistoryCard checkins={checkins} />
         </div>

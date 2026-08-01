@@ -1,5 +1,6 @@
 import { useForm } from '@inertiajs/react';
 import { Send } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 import PatientLayout from '../../../Layouts/PatientLayout';
 
 function DateSeparator({ label }) {
@@ -62,7 +63,7 @@ export default function MessagesIndex({ practitioner, messages }) {
     return (
         <PatientLayout title="Messages">
             <div className="-mt-6 -mb-16 flex min-h-0 flex-1 flex-col">
-                <div className="flex shrink-0 items-center gap-3.5 border-b border-sand/35 pb-5.5">
+                <div className="sticky top-14 z-20 flex shrink-0 items-center gap-3.5 border-b border-sand/35 bg-cream pt-4 pb-5.5 lg:top-0">
                     <div style={{ fontSize: '15px' }} className="flex size-11 shrink-0 items-center justify-center rounded-full bg-forest font-bold text-cream">
                         {practitioner.initials}
                     </div>

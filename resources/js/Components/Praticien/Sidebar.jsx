@@ -1,5 +1,6 @@
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { ClipboardList, LayoutDashboard, LogOut, MessageSquare, Settings, Users } from 'lucide-react';
+import { ClipboardList, LayoutDashboard, LogOut, Menu, MessageSquare, Settings, Users, X } from 'lucide-react';
+import { useState } from 'react';
 
 const NAV_ITEMS = [
     { label: 'Tableau de bord', href: '/praticien/dashboard', icon: LayoutDashboard },
@@ -21,6 +22,7 @@ export default function Sidebar() {
     const { url, props } = usePage();
     const user = props.auth.user;
     const { post, processing } = useForm();
+    const [open, setOpen] = useState(false);
 
     function logout(e) {
         e.preventDefault();
@@ -28,52 +30,73 @@ export default function Sidebar() {
     }
 
     return (
-        <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col bg-forest px-4 py-6">
-            <div className="mb-5 ml-2 self-start whitespace-nowrap">
-                <span className="font-display text-xl font-semibold text-white">Doctor</span>
-                <span className="font-display text-xl font-semibold text-white"> Panel</span>
+        <>
+            <div className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-3 bg-forest px-4 lg:hidden">
+                <button type="button" onClick={() => setOpen(true)} aria-label="Ouvrir le menu" className="text-cream">
+                    <Menu size={22} />
+                </button>
+                <span className="font-display text-lg font-semibold text-white">Doctor Panel</span>
             </div>
 
-            <div className="mb-5 border-t border-cream/15" />
+            {open && <div onClick={() => setOpen(false)} className="fixed inset-0 z-40 bg-forest/50 lg:hidden" />}
 
-            <nav className="flex flex-1 flex-col gap-1">
-                {NAV_ITEMS.map((item) => {
-                    const active = url.startsWith(item.href);
-                    const Icon = item.icon;
+            <aside
+                className={
+                    'fixed inset-y-0 left-0 z-50 flex h-screen w-60 shrink-0 flex-col bg-forest px-4 py-6 transition-transform duration-200 lg:sticky lg:top-0 lg:translate-x-0 ' +
+                    (open ? 'translate-x-0' : '-translate-x-full')
+                }
+            >
+                <button type="button" onClick={() => setOpen(false)} aria-label="Fermer le menu" className="mb-3 self-end text-cream lg:hidden">
+                    <X size={20} />
+                </button>
 
-                    return (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className={
-                                'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold whitespace-nowrap ' +
-                                (active ? 'bg-sage text-forest' : 'text-cream/70 hover:bg-cream/10')
-                            }
+                <div className="mb-5 ml-2 self-start whitespace-nowrap">
+                    <span className="font-display text-xl font-semibold text-white">Doctor</span>
+                    <span className="font-display text-xl font-semibold text-white"> Panel</span>
+                </div>
+
+                <div className="mb-5 border-t border-cream/15" />
+
+                <nav className="flex flex-1 flex-col gap-1">
+                    {NAV_ITEMS.map((item) => {
+                        const active = url.startsWith(item.href);
+                        const Icon = item.icon;
+
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setOpen(false)}
+                                className={
+                                    'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold whitespace-nowrap ' +
+                                    (active ? 'bg-sage text-forest' : 'text-cream/70 hover:bg-cream/10')
+                                }
+                            >
+                                <Icon size={18} className="shrink-0" />
+                                {item.label}
+                            </Link>
+                        );
+                    })}
+                </nav>
+
+                <div className="mt-2 flex items-center gap-2.5 border-t border-cream/15 pt-4">
+                    <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sage text-sm font-bold text-forest">
+                        {initials(user.name)}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                        <div className="truncate text-sm font-semibold text-cream">{user.name}</div>
+                        <button
+                            type="button"
+                            onClick={logout}
+                            disabled={processing}
+                            className="flex cursor-pointer items-center gap-1 text-xs text-cream/60 hover:text-cream"
                         >
-                            <Icon size={18} className="shrink-0" />
-                            {item.label}
-                        </Link>
-                    );
-                })}
-            </nav>
-
-            <div className="mt-2 flex items-center gap-2.5 border-t border-cream/15 pt-4">
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sage text-sm font-bold text-forest">
-                    {initials(user.name)}
+                            <LogOut size={12} />
+                            Se déconnecter
+                        </button>
+                    </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                    <div className="truncate text-sm font-semibold text-cream">{user.name}</div>
-                    <button
-                        type="button"
-                        onClick={logout}
-                        disabled={processing}
-                        className="flex items-center gap-1 text-xs text-cream/60 hover:text-cream cursor-pointer"
-                    >
-                        <LogOut size={12} />
-                        Se déconnecter
-                    </button>
-                </div>
-            </div>
-        </aside>
+            </aside>
+        </>
     );
 }
