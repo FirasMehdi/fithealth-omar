@@ -22,7 +22,7 @@ class AuthController extends Controller
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             throw ValidationException::withMessages([
-                'email' => 'Ces identifiants ne correspondent à aucun compte.',
+                'email' => __('Email ou mot de passe incorrect.'),
             ]);
         }
 
