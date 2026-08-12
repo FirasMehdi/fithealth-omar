@@ -16,9 +16,22 @@ function IconTile({ icon: Icon }) {
 export default function ChecklistItem({ icon, label, detail, done = false, onToggle }) {
     const interactive = typeof onToggle === 'function';
 
+    function handleKeyDown(event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+            if (event.key === ' ') {
+                event.preventDefault();
+            }
+            onToggle();
+        }
+    }
+
     return (
         <div
             onClick={interactive ? onToggle : undefined}
+            onKeyDown={interactive ? handleKeyDown : undefined}
+            role={interactive ? 'button' : undefined}
+            tabIndex={interactive ? 0 : undefined}
+            aria-pressed={interactive ? done : undefined}
             className={
                 'flex items-center gap-3.5 rounded-2xl bg-white px-4 py-3.5 shadow-md shadow-forest/10 ' +
                 (interactive ? 'cursor-pointer' : '')

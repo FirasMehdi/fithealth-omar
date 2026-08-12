@@ -12,10 +12,12 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = $request->user()?->locale?->value
+        $raw = $request->user()?->locale?->value
             ?? $request->session()->get('locale', Locale::Fr->value);
 
-        App::setLocale($locale);
+        $locale = Locale::tryFrom($raw) ?? Locale::Fr;
+
+        App::setLocale($locale->value);
 
         return $next($request);
     }

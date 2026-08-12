@@ -6,7 +6,9 @@ export function useTranslation() {
     function t(key, params = {}) {
         let text = translations[key] ?? key;
 
-        for (const [name, value] of Object.entries(params)) {
+        const entries = Object.entries(params).sort(([a], [b]) => b.length - a.length);
+
+        for (const [name, value] of entries) {
             text = text.replaceAll(`:${name}`, value);
         }
 

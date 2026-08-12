@@ -33,10 +33,16 @@ class AuthController extends Controller
 
     public function destroy(): RedirectResponse
     {
+        $locale = Auth::user()?->locale?->value;
+
         Auth::logout();
 
         request()->session()->invalidate();
         request()->session()->regenerateToken();
+
+        if ($locale !== null) {
+            request()->session()->put('locale', $locale);
+        }
 
         return redirect()->route('home');
     }

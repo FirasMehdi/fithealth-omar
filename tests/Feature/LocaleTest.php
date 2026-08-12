@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Enums\Locale;
+use App\Enums\ProtocolStatus;
 use App\Enums\Role;
+use App\Models\Protocol;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -149,5 +151,44 @@ class LocaleTest extends TestCase
 
         $response->assertSee('dir="ltr"', false);
         $response->assertSee('lang="fr"', false);
+    }
+
+    public function test_la_langue_du_patient_est_conservee_en_session_apres_la_deconnexion(): void
+    {
+        $patient = User::factory()->patient()->create(['locale' => Locale::Ar]);
+
+        $this->actingAs($patient)->post('/logout')->assertRedirect(route('home'));
+
+        $this->assertSame('ar', session('locale'));
+    }
+
+    public function test_la_page_protocole_du_patient_affiche_les_jours_en_derja(): void
+    {
+        $practitioner = User::factory()->praticien()->create();
+        $patient = User::factory()->patient($practitioner)->create(['locale' => Locale::Ar]);
+        Protocol::factory()->forPatient($patient)->create(['status' => ProtocolStatus::Actif]);
+
+        $arabicDayNames = ['الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد'];
+
+        $response = $this->actingAs($patient)->get('/patient/protocole');
+
+        $response->assertInertia(fn (Assert $page) => $page
+            ->where('weekPlan.0.fullDay', fn ($value) => in_array($value, $arabicDayNames, true))
+        );
+    }
+
+    public function test_la_page_praticien_du_patient_affiche_toujours_les_jours_en_francais(): void
+    {
+        $practitioner = User::factory()->praticien()->create(['locale' => Locale::Fr]);
+        $patient = User::factory()->patient($practitioner)->create(['locale' => Locale::Ar]);
+        Protocol::factory()->forPatient($patient)->create(['status' => ProtocolStatus::Actif]);
+
+        $frenchDayNames = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+
+        $response = $this->actingAs($practitioner)->get("/praticien/patients/{$patient->id}");
+
+        $response->assertInertia(fn (Assert $page) => $page
+            ->where('weekPlan.0.fullDay', fn ($value) => in_array($value, $frenchDayNames, true))
+        );
     }
 }
