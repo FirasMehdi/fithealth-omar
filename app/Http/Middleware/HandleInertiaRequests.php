@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Locale;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -35,6 +36,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $locale = Locale::from(app()->getLocale());
+
         return [
             ...parent::share($request),
             'auth' => [
@@ -44,6 +47,14 @@ class HandleInertiaRequests extends Middleware
                     'role' => $request->user()->role->value,
                 ] : null,
             ],
+            'locale' => [
+                'current' => $locale->value,
+                'direction' => $locale->direction(),
+            ],
+            'translations' => json_decode(
+                file_get_contents(lang_path($locale->value.'.json')),
+                true
+            ) ?? [],
         ];
     }
 }

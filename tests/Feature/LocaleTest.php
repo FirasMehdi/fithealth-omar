@@ -7,6 +7,7 @@ use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class LocaleTest extends TestCase
@@ -110,5 +111,27 @@ class LocaleTest extends TestCase
     public function test_une_valeur_de_langue_invalide_est_rejetee(): void
     {
         $this->post('/langue', ['locale' => 'es'])->assertSessionHasErrors('locale');
+    }
+
+    public function test_les_props_inertia_exposent_la_locale_et_les_traductions_en_derja(): void
+    {
+        $response = $this->withSession(['locale' => 'ar'])->get('/');
+
+        $response->assertInertia(fn (Assert $page) => $page
+            ->where('locale.current', 'ar')
+            ->where('locale.direction', 'rtl')
+            ->where('translations.Sport', 'الرياضة')
+        );
+    }
+
+    public function test_les_props_inertia_par_defaut_sont_en_francais(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertInertia(fn (Assert $page) => $page
+            ->where('locale.current', 'fr')
+            ->where('locale.direction', 'ltr')
+            ->has('translations')
+        );
     }
 }
