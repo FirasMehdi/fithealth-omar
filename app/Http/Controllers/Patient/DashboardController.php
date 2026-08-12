@@ -23,7 +23,7 @@ class DashboardController extends Controller
         $protocol = $patient->activeProtocol()->with('items')->first();
 
         return Inertia::render('Patient/Dashboard', [
-            'todayLabel' => ucfirst(Carbon::now()->locale('fr')->translatedFormat('l j F Y')),
+            'todayLabel' => ucfirst(Carbon::now()->locale(app()->getLocale())->translatedFormat('l j F Y')),
             'nextCheckIn' => $this->nextCheckInLabel($patient->latestCheckIn),
             'todayItems' => $protocol ? $this->todayItems($protocol) : [],
             'vitalite' => $patient->vitaliteItems()->orderByDesc('id')->get(['id', 'text']),
@@ -33,16 +33,18 @@ class DashboardController extends Controller
     private function nextCheckInLabel(?CheckIn $lastCheckIn): string
     {
         if (! $lastCheckIn) {
-            return 'Premier check-in à faire';
+            return __('Premier check-in à faire');
         }
 
         $remaining = 7 - $lastCheckIn->submitted_at->diffInDays(now());
 
         if ($remaining <= 0) {
-            return 'Check-in disponible';
+            return __('Check-in disponible');
         }
 
-        return $remaining === 1 ? 'Prochain check-in demain' : "Prochain check-in dans {$remaining} jours";
+        return $remaining === 1
+            ? __('Prochain check-in demain')
+            : __('Prochain check-in dans :n jours', ['n' => $remaining]);
     }
 
     private function todayItems($protocol): array
@@ -61,6 +63,7 @@ class DashboardController extends Controller
                 'id' => $item->id,
                 'title' => $item->title,
                 'detail' => $this->itemDetail($item),
+                'pillar' => $item->pillar->value,
                 'done' => (bool) ($todaysLogs->get($item->id)?->completed ?? false),
             ])
             ->values()
