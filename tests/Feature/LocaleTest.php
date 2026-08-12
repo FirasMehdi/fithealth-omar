@@ -67,4 +67,27 @@ class LocaleTest extends TestCase
 
         $this->assertSame(Locale::Fr, User::where('email', 'patient.fr@example.com')->first()->locale);
     }
+
+    public function test_locale_par_defaut_est_fr_pour_un_invite(): void
+    {
+        $this->get('/');
+
+        $this->assertSame('fr', app()->getLocale());
+    }
+
+    public function test_locale_invite_suit_la_session(): void
+    {
+        $this->withSession(['locale' => 'ar'])->get('/');
+
+        $this->assertSame('ar', app()->getLocale());
+    }
+
+    public function test_locale_suit_le_compte_du_patient_connecte(): void
+    {
+        $patient = User::factory()->patient()->create(['locale' => Locale::Ar]);
+
+        $this->actingAs($patient)->get('/patient/dashboard');
+
+        $this->assertSame('ar', app()->getLocale());
+    }
 }
