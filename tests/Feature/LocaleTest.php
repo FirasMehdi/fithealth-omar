@@ -90,4 +90,25 @@ class LocaleTest extends TestCase
 
         $this->assertSame('ar', app()->getLocale());
     }
+
+    public function test_un_invite_peut_changer_la_langue_en_session(): void
+    {
+        $this->post('/langue', ['locale' => 'ar'])->assertRedirect();
+
+        $this->assertSame('ar', session('locale'));
+    }
+
+    public function test_un_patient_connecte_change_la_langue_sur_son_compte(): void
+    {
+        $patient = User::factory()->patient()->create(['locale' => Locale::Fr]);
+
+        $this->actingAs($patient)->post('/langue', ['locale' => 'ar'])->assertRedirect();
+
+        $this->assertSame(Locale::Ar, $patient->fresh()->locale);
+    }
+
+    public function test_une_valeur_de_langue_invalide_est_rejetee(): void
+    {
+        $this->post('/langue', ['locale' => 'es'])->assertSessionHasErrors('locale');
+    }
 }
