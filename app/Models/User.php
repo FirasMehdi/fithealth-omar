@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Locale;
 use App\Enums\ProtocolStatus;
 use App\Enums\Role;
 use App\Enums\Sex;
@@ -29,6 +30,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'locale',
         'phone',
         'practitioner_id',
         'birth_date',
@@ -62,6 +64,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'role' => Role::class,
             'sex' => Sex::class,
+            'locale' => Locale::class,
             'birth_date' => 'date',
             'height_cm' => 'integer',
             'initial_weight' => 'decimal:2',

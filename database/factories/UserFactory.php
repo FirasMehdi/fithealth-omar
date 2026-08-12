@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Locale;
 use App\Enums\Role;
 use App\Enums\Sex;
 use App\Models\User;
@@ -50,6 +51,7 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'role' => Role::Praticien,
+            'locale' => Locale::Fr,
             'practitioner_id' => null,
             'birth_date' => null,
             'sex' => null,
@@ -63,6 +65,7 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'role' => Role::Patient,
+            'locale' => Locale::Ar,
             'practitioner_id' => $practitioner?->id ?? User::factory()->praticien(),
             'birth_date' => fake()->dateTimeBetween('-65 years', '-18 years'),
             'sex' => fake()->randomElement(Sex::cases()),

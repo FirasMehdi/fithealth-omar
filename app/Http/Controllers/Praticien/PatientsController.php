@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Praticien;
 
+use App\Enums\Locale;
 use App\Enums\Pillar;
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
@@ -59,6 +60,7 @@ class PatientsController extends Controller
             'password' => Hash::make($request->validated('password')),
             'role' => Role::Patient,
             'practitioner_id' => $practitioner->id,
+            'locale' => $request->validated('locale') ?? Locale::Ar->value,
         ]);
 
         return back();

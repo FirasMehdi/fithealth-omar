@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Locale;
 use App\Enums\Sex;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
@@ -27,6 +28,7 @@ class StorePatientRequest extends FormRequest
             'initial_weight' => ['nullable', 'numeric', 'min:1', 'max:999'],
             'medical_background' => ['nullable', 'string', 'max:2000'],
             'current_treatments' => ['nullable', 'string', 'max:2000'],
+            'locale' => ['nullable', new Enum(Locale::class)],
         ];
     }
 }

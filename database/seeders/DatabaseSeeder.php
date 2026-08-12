@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\Adherence;
+use App\Enums\Locale;
 use App\Enums\Pillar;
 use App\Enums\ProtocolStatus;
 use App\Enums\Role;
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'praticien@fithealth.tn',
             'password' => Hash::make('password'),
             'role' => Role::Praticien,
+            'locale' => Locale::Fr,
         ]);
 
         $amina = $this->createPatient($practitioner, [
@@ -206,6 +208,7 @@ class DatabaseSeeder extends Seeder
         return User::create(array_merge([
             'password' => Hash::make('password'),
             'role' => Role::Patient,
+            'locale' => Locale::Ar,
             'practitioner_id' => $practitioner->id,
         ], $attributes));
     }
