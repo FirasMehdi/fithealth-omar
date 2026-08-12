@@ -17,7 +17,7 @@ class CheckInController extends Controller
     public function create(): Response
     {
         return Inertia::render('Patient/CheckIn/Index', [
-            'todayLabel' => ucfirst(now()->locale('fr')->translatedFormat('l j F Y')),
+            'todayLabel' => ucfirst(now()->locale(app()->getLocale())->translatedFormat('l j F Y')),
         ]);
     }
 
