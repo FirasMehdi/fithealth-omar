@@ -71,7 +71,7 @@ class MessageController extends Controller
             if ($date !== $lastDate) {
                 $items[] = [
                     'isDateSeparator' => true,
-                    'label' => $message->created_at->locale('fr')->translatedFormat('d F'),
+                    'label' => $message->created_at->locale(app()->getLocale())->translatedFormat('d F'),
                 ];
                 $lastDate = $date;
             }

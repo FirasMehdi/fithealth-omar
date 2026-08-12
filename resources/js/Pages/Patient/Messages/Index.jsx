@@ -1,6 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import { Send } from 'lucide-react';
 import PatientLayout from '../../../Layouts/PatientLayout';
+import { useTranslation } from '../../../i18n';
 
 function DateSeparator({ label }) {
     return (
@@ -26,7 +27,7 @@ function MessageBubble({ fromPatient, text }) {
     );
 }
 
-function Composer() {
+function Composer({ t }) {
     const { data, setData, post, processing, reset } = useForm({ body: '' });
 
     function submit(e) {
@@ -41,7 +42,7 @@ function Composer() {
         <form onSubmit={submit} className="flex shrink-0 gap-2.5 border-t border-sand/35 py-5">
             <input
                 type="text"
-                placeholder="Écrire un message…"
+                placeholder={t('Écrire un message…')}
                 value={data.body}
                 onChange={(e) => setData('body', e.target.value)}
                 style={{ borderWidth: '1.5px', fontSize: '14.5px' }}
@@ -59,11 +60,16 @@ function Composer() {
 }
 
 export default function MessagesIndex({ practitioner, messages }) {
+    const { t } = useTranslation();
+
     return (
-        <PatientLayout title="Messages">
+        <PatientLayout title={t('Messages')}>
             <div className="-mt-6 -mb-16 flex min-h-0 flex-1 flex-col">
                 <div className="flex shrink-0 items-center gap-3.5 border-b border-sand/35 pb-5.5">
-                    <div style={{ fontSize: '15px' }} className="flex size-11 shrink-0 items-center justify-center rounded-full bg-forest font-bold text-cream">
+                    <div
+                        style={{ fontSize: '15px' }}
+                        className="flex size-11 shrink-0 items-center justify-center rounded-full bg-forest font-bold text-cream"
+                    >
                         {practitioner.initials}
                     </div>
                     <div>
@@ -71,7 +77,7 @@ export default function MessagesIndex({ practitioner, messages }) {
                             {practitioner.name}
                         </div>
                         <div style={{ fontSize: '12.5px' }} className="text-sage">
-                            Naturopathe &amp; coach
+                            {t('Naturopathe & coach')}
                         </div>
                     </div>
                 </div>
@@ -79,7 +85,7 @@ export default function MessagesIndex({ practitioner, messages }) {
                 <div className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto py-7">
                     {messages.length === 0 && (
                         <div className="flex h-full items-center justify-center text-center">
-                            <p className="text-sm text-forest/60">Aucun message pour l'instant, commencez la conversation.</p>
+                            <p className="text-sm text-forest/60">{t('Pas encore de message. Écris le premier !')}</p>
                         </div>
                     )}
 
@@ -92,7 +98,7 @@ export default function MessagesIndex({ practitioner, messages }) {
                     )}
                 </div>
 
-                <Composer />
+                <Composer t={t} />
             </div>
         </PatientLayout>
     );
