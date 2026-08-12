@@ -9,12 +9,6 @@ use App\Models\ProtocolLog;
 
 class WeekPlanBuilder
 {
-    private const DAY_LABELS = [1 => 'Lun', 2 => 'Mar', 3 => 'Mer', 4 => 'Jeu', 5 => 'Ven', 6 => 'Sam', 7 => 'Dim'];
-
-    private const FULL_DAY_LABELS = [
-        1 => 'Lundi', 2 => 'Mardi', 3 => 'Mercredi', 4 => 'Jeudi', 5 => 'Vendredi', 6 => 'Samedi', 7 => 'Dimanche',
-    ];
-
     /**
      * Planning des 7 jours de la semaine en cours (lundi à dimanche), avec
      * pour chaque jour les items prévus (datés sur ce jour, ou permanents)
@@ -33,6 +27,9 @@ class WeekPlanBuilder
             ->map(fn (ProtocolLog $log) => $log->protocol_item_id.'|'.$log->logged_on->toDateString())
             ->flip();
 
+        $dayLabels = $this->dayLabels();
+        $fullDayLabels = $this->fullDayLabels();
+
         $days = [];
 
         for ($i = 0; $i < 7; $i++) {
@@ -50,8 +47,8 @@ class WeekPlanBuilder
             ];
 
             $days[] = [
-                'day' => self::DAY_LABELS[$iso],
-                'fullDay' => self::FULL_DAY_LABELS[$iso],
+                'day' => $dayLabels[$iso],
+                'fullDay' => $fullDayLabels[$iso],
                 'date' => $date->toDateString(),
                 'sport' => $dayItems->where('pillar', Pillar::Mouvement)->map($mapItem)->values()->all(),
                 'nutrition' => $dayItems->where('pillar', Pillar::Nutrition)->map($mapItem)->values()->all(),
@@ -59,5 +56,27 @@ class WeekPlanBuilder
         }
 
         return $days;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function dayLabels(): array
+    {
+        return [
+            1 => __('Lun'), 2 => __('Mar'), 3 => __('Mer'), 4 => __('Jeu'),
+            5 => __('Ven'), 6 => __('Sam'), 7 => __('Dim'),
+        ];
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function fullDayLabels(): array
+    {
+        return [
+            1 => __('Lundi'), 2 => __('Mardi'), 3 => __('Mercredi'), 4 => __('Jeudi'),
+            5 => __('Vendredi'), 6 => __('Samedi'), 7 => __('Dimanche'),
+        ];
     }
 }
