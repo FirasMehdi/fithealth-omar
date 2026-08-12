@@ -1,12 +1,7 @@
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { ClipboardList, Heart, Home, LogOut, MessageSquare } from 'lucide-react';
-
-const NAV_ITEMS = [
-    { label: 'Accueil', href: '/patient/dashboard', icon: Home },
-    { label: 'Protocole', href: '/patient/protocole', icon: ClipboardList },
-    { label: 'Check-in', href: '/patient/checkin', icon: Heart },
-    { label: 'Messages', href: '/patient/messages', icon: MessageSquare },
-];
+import { useTranslation } from '../../i18n';
+import LanguageSwitcher from '../LanguageSwitcher';
 
 function initials(name) {
     return name
@@ -20,6 +15,14 @@ export default function Sidebar() {
     const { url, props } = usePage();
     const user = props.auth.user;
     const { post, processing } = useForm();
+    const { t } = useTranslation();
+
+    const navItems = [
+        { label: t('Accueil'), href: '/patient/dashboard', icon: Home },
+        { label: t('Mon programme'), href: '/patient/protocole', icon: ClipboardList },
+        { label: t('Comment je vais'), href: '/patient/checkin', icon: Heart },
+        { label: t('Messages'), href: '/patient/messages', icon: MessageSquare },
+    ];
 
     function logout(e) {
         e.preventDefault();
@@ -28,15 +31,18 @@ export default function Sidebar() {
 
     return (
         <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col bg-forest px-4 py-6">
-            <div className="mb-5 ml-2 self-start whitespace-nowrap">
-                <span className="font-display text-xl font-semibold text-white">Patient</span>
-                <span className="font-display text-xl font-semibold text-white"> Panel</span>
+            <div className="mb-5 ms-2 self-start whitespace-nowrap">
+                <span className="font-display text-xl font-semibold text-white">FitHealth</span>
+            </div>
+
+            <div className="mb-4">
+                <LanguageSwitcher tone="dark" />
             </div>
 
             <div className="mb-5 border-t border-cream/15" />
 
             <nav className="flex flex-1 flex-col gap-0.5">
-                {NAV_ITEMS.map((item) => {
+                {navItems.map((item) => {
                     const active = url.startsWith(item.href);
                     const Icon = item.icon;
 
@@ -60,16 +66,16 @@ export default function Sidebar() {
                 type="button"
                 onClick={logout}
                 disabled={processing}
-                className="mt-2 -mb-6 flex items-center gap-2.5 rounded-xl border-t border-cream/15 px-3 pt-3.5 pb-3.5 text-left "
+                className="mt-2 -mb-6 flex items-center gap-2.5 rounded-xl border-t border-cream/15 px-3 pt-3.5 pb-3.5 text-start"
             >
                 <span className="flex size-8.5 shrink-0 items-center justify-center rounded-full bg-sage text-sm font-bold text-forest">
                     {initials(user.name)}
                 </span>
                 <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-semibold text-cream">{user.name}</span>
-                    <span className="flex items-center gap-1 text-xs text-cream/60 cursor-pointer">
-                        <LogOut size={12}  />
-                        Déconnexion
+                    <span className="flex items-center gap-1 text-xs text-cream/60">
+                        <LogOut size={12} />
+                        {t('Se déconnecter')}
                     </span>
                 </span>
             </button>
