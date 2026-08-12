@@ -134,4 +134,20 @@ class LocaleTest extends TestCase
             ->has('translations')
         );
     }
+
+    public function test_le_document_html_est_en_rtl_en_derja(): void
+    {
+        $response = $this->withSession(['locale' => 'ar'])->get('/');
+
+        $response->assertSee('dir="rtl"', false);
+        $response->assertSee('lang="ar"', false);
+    }
+
+    public function test_le_document_html_est_en_ltr_en_francais(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertSee('dir="ltr"', false);
+        $response->assertSee('lang="fr"', false);
+    }
 }

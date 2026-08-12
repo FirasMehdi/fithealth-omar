@@ -19,6 +19,11 @@
     --radius: 14px;
 }
 
+[dir='rtl'] {
+    --font-display: 'Cairo', sans-serif;
+    --font-sans: 'Cairo', sans-serif;
+}
+
 .range-slider {
     appearance: none;
     height: 6px;
