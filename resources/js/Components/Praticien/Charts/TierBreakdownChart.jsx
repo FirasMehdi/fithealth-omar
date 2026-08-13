@@ -4,20 +4,22 @@ import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
-const TIERS = [
-    { key: 'under25', label: 'Moins de 25%', color: '#C4643F' },
-    { key: '25to50', label: '25 – 50%', color: '#D9C9A8' },
-    { key: '50to75', label: '50 – 75%', color: '#A9C4A8' },
-    { key: 'over75', label: 'Plus de 75%', color: '#7FA07E' },
+const TIER_KEYS = [
+    { key: 'under25', labelKey: 'Moins de 25%', color: '#C4643F' },
+    { key: '25to50', labelKey: '25 – 50%', color: '#D9C9A8' },
+    { key: '50to75', labelKey: '50 – 75%', color: '#A9C4A8' },
+    { key: 'over75', labelKey: 'Plus de 75%', color: '#7FA07E' },
 ];
 
-export default function TierBreakdownChart({ tiers }) {
+export default function TierBreakdownChart({ tiers, t }) {
+    const TIERS = TIER_KEYS.map((tier) => ({ ...tier, label: t(tier.labelKey) }));
+
     const data = {
-        labels: TIERS.map((t) => t.label),
+        labels: TIERS.map((tier) => tier.label),
         datasets: [
             {
-                data: TIERS.map((t) => tiers[t.key] ?? 0),
-                backgroundColor: TIERS.map((t) => t.color),
+                data: TIERS.map((tier) => tiers[tier.key] ?? 0),
+                backgroundColor: TIERS.map((tier) => tier.color),
                 borderRadius: 6,
                 barThickness: 26,
             },
@@ -38,7 +40,7 @@ export default function TierBreakdownChart({ tiers }) {
                 cornerRadius: 8,
                 displayColors: false,
                 callbacks: {
-                    label: (item) => `${item.raw} patient${item.raw > 1 ? 's' : ''}`,
+                    label: (item) => (item.raw > 1 ? t(':n patients', { n: item.raw }) : t(':n patient', { n: item.raw })),
                 },
             },
         },

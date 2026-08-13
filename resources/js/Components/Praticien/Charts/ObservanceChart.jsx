@@ -7,15 +7,15 @@ const AXIS_COLOR = '#6B7568';
 const GRID_COLOR = 'rgba(217,201,168,0.3)';
 const TARGET = 70;
 
-export default function ObservanceChart({ trend }) {
-    const labels = trend.map((t) => t.label);
+export default function ObservanceChart({ trend, t }) {
+    const labels = trend.map((entry) => entry.label);
     const flat = trend.map(() => TARGET);
 
     const data = {
         labels,
         datasets: [
             {
-                label: 'Zone de référence',
+                label: t('Zone de référence'),
                 data: flat,
                 borderColor: 'transparent',
                 backgroundColor: 'rgba(127,160,126,0.12)',
@@ -24,7 +24,7 @@ export default function ObservanceChart({ trend }) {
                 order: 3,
             },
             {
-                label: 'Objectif 70%',
+                label: t('Objectif 70%'),
                 data: flat,
                 borderColor: '#D9C9A8',
                 borderWidth: 1.5,
@@ -34,8 +34,8 @@ export default function ObservanceChart({ trend }) {
                 order: 2,
             },
             {
-                label: 'Observance moyenne',
-                data: trend.map((t) => t.average),
+                label: t('Observance moyenne'),
+                data: trend.map((entry) => entry.average),
                 borderColor: '#1B3A2F',
                 backgroundColor: '#1B3A2F',
                 borderWidth: 2.5,
@@ -64,7 +64,7 @@ export default function ObservanceChart({ trend }) {
                 displayColors: false,
                 filter: (item) => item.datasetIndex === 2,
                 callbacks: {
-                    label: (item) => (item.raw === null ? 'Aucun patient actif' : `${item.raw}% d’observance`),
+                    label: (item) => (item.raw === null ? t('Aucun patient actif') : t(':n% d’observance', { n: item.raw })),
                 },
             },
         },

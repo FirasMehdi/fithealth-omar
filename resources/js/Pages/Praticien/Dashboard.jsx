@@ -4,6 +4,7 @@ import GrowthChart from '../../Components/Praticien/Charts/GrowthChart';
 import ObservanceChart from '../../Components/Praticien/Charts/ObservanceChart';
 import TierBreakdownChart from '../../Components/Praticien/Charts/TierBreakdownChart';
 import PraticienLayout from '../../Layouts/PraticienLayout';
+import { useTranslation } from '../../i18n';
 
 function StatCard({ label, value, tone = 'forest' }) {
     return (
@@ -26,16 +27,16 @@ function ChartCard({ title, subtitle, children }) {
     );
 }
 
-function Watchlist({ patients }) {
+function Watchlist({ patients, t }) {
     return (
         <div className="rounded bg-white px-6 py-5.5 shadow-lg shadow-forest/25">
             <div className="mb-4 flex items-center gap-2">
                 <AlertTriangle size={18} className="text-terracotta" />
-                <h2 className="font-display text-base font-semibold text-forest">À traiter cette semaine</h2>
+                <h2 className="font-display text-base font-semibold text-forest">{t('À traiter cette semaine')}</h2>
             </div>
 
             {patients.length === 0 ? (
-                <p className="text-sm text-forest/60">Rien à signaler — tous vos patients sont à jour.</p>
+                <p className="text-sm text-forest/60">{t('Rien à signaler — tous vos patients sont à jour.')}</p>
             ) : (
                 <div className="flex flex-col gap-2.5">
                     {patients.map((p) => (
@@ -61,37 +62,38 @@ function Watchlist({ patients }) {
 
 export default function Dashboard({ todayLabel, stats, growthTrend, observanceTrend, observanceTiers, watchlist }) {
     const practitionerName = usePage().props.auth.user.name;
+    const { t } = useTranslation();
 
     return (
-        <PraticienLayout title="Tableau de bord">
+        <PraticienLayout title={t('Tableau de bord')}>
             <div className="mb-6">
-                <h1 className="font-display mb-1 text-2xl font-semibold text-forest">Bonjour, {practitionerName}</h1>
+                <h1 className="font-display mb-1 text-2xl font-semibold text-forest">{t('Bonjour, :name', { name: practitionerName })}</h1>
                 <p className="text-sm text-forest/60">{todayLabel}</p>
             </div>
 
             <div className="mb-5 flex flex-wrap gap-3.5">
-                <StatCard label="Patients actifs" value={stats.activePatients} />
-                <StatCard label="Nouveaux ce mois-ci" value={stats.newPatientsThisMonth} />
-                <StatCard label="Check-ins cette semaine" value={stats.checkinsThisWeek} />
-                <StatCard label="Messages non lus" value={stats.unreadMessages} tone="terracotta" />
+                <StatCard label={t('Patients actifs')} value={stats.activePatients} />
+                <StatCard label={t('Nouveaux ce mois-ci')} value={stats.newPatientsThisMonth} />
+                <StatCard label={t('Check-ins cette semaine')} value={stats.checkinsThisWeek} />
+                <StatCard label={t('Messages non lus')} value={stats.unreadMessages} tone="terracotta" />
             </div>
 
             <div className="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
-                <ChartCard title="Croissance du cabinet" subtitle="Total de patients suivis et nouveaux patients, 12 derniers mois">
-                    <GrowthChart trend={growthTrend} />
+                <ChartCard title={t('Croissance du cabinet')} subtitle={t('Total de patients suivis et nouveaux patients, 12 derniers mois')}>
+                    <GrowthChart trend={growthTrend} t={t} />
                 </ChartCard>
-                <ChartCard title="Observance moyenne du cabinet" subtitle="Moyenne des patients actifs, 12 dernières semaines">
-                    <ObservanceChart trend={observanceTrend} />
+                <ChartCard title={t('Observance moyenne du cabinet')} subtitle={t('Moyenne des patients actifs, 12 dernières semaines')}>
+                    <ObservanceChart trend={observanceTrend} t={t} />
                 </ChartCard>
             </div>
 
             <div className="mb-5">
-                <ChartCard title="Répartition de l’observance" subtitle="Cliquez sur une tranche pour voir les patients concernés">
-                    <TierBreakdownChart tiers={observanceTiers} />
+                <ChartCard title={t('Répartition de l’observance')} subtitle={t('Cliquez sur une tranche pour voir les patients concernés')}>
+                    <TierBreakdownChart tiers={observanceTiers} t={t} />
                 </ChartCard>
             </div>
 
-            <Watchlist patients={watchlist} />
+            <Watchlist patients={watchlist} t={t} />
         </PraticienLayout>
     );
 }

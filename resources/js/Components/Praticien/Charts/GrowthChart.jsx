@@ -6,14 +6,14 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarEleme
 const AXIS_COLOR = '#6B7568';
 const GRID_COLOR = 'rgba(217,201,168,0.3)';
 
-export default function GrowthChart({ trend }) {
+export default function GrowthChart({ trend, t }) {
     const data = {
-        labels: trend.map((t) => t.label),
+        labels: trend.map((entry) => entry.label),
         datasets: [
             {
                 type: 'line',
-                label: 'Total patients suivis',
-                data: trend.map((t) => t.total),
+                label: t('Total patients suivis'),
+                data: trend.map((entry) => entry.total),
                 borderColor: '#1B3A2F',
                 backgroundColor: 'rgba(127,160,126,0.18)',
                 borderWidth: 2.5,
@@ -27,8 +27,8 @@ export default function GrowthChart({ trend }) {
             },
             {
                 type: 'bar',
-                label: 'Nouveaux patients',
-                data: trend.map((t) => t.new),
+                label: t('Nouveaux patients'),
+                data: trend.map((entry) => entry.new),
                 backgroundColor: '#D9C9A8',
                 borderRadius: 4,
                 barThickness: 12,

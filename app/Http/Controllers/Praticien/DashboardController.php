@@ -45,7 +45,7 @@ class DashboardController extends Controller
             ->count();
 
         return Inertia::render('Praticien/Dashboard', [
-            'todayLabel' => ucfirst(Carbon::now()->locale('fr')->translatedFormat('l j F Y')),
+            'todayLabel' => ucfirst(Carbon::now()->locale(app()->getLocale())->translatedFormat('l j F Y')),
             'stats' => [
                 'activePatients' => $patients->count(),
                 'newPatientsThisMonth' => $patients->filter(fn (User $p) => $p->created_at->isCurrentMonth())->count(),
@@ -86,7 +86,7 @@ class DashboardController extends Controller
             $running += $newCount;
 
             $trend[] = [
-                'label' => ucfirst($month->locale('fr')->translatedFormat('M Y')),
+                'label' => ucfirst($month->locale(app()->getLocale())->translatedFormat('M Y')),
                 'new' => $newCount,
                 'total' => $running,
             ];
@@ -137,8 +137,8 @@ class DashboardController extends Controller
                 'name' => $p->name,
                 'initials' => $p->initials,
                 'reason' => $p->isCheckInLate
-                    ? 'Check-in en retard'
-                    : 'Observance faible ('.($observanceByPatient[$p->id] ?? 0).'%)',
+                    ? __('Check-in en retard')
+                    : __('Observance faible (:n%)', ['n' => $observanceByPatient[$p->id] ?? 0]),
             ])
             ->values()
             ->all();
