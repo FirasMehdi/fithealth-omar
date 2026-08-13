@@ -66,7 +66,7 @@ class MessageController extends Controller
                     'id' => $m->id,
                     'body' => $m->body,
                     'fromPractitioner' => $m->sender_id === $practitioner->id,
-                    'createdAt' => $m->created_at->locale('fr')->translatedFormat('d M à H:i'),
+                    'createdAt' => $m->created_at->locale(app()->getLocale())->translatedFormat('d M à H:i'),
                 ]);
 
             Message::where('sender_id', $patient->id)

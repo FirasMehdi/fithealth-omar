@@ -2,6 +2,7 @@ import { Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, MessageSquare, Send } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import PraticienLayout from '../../../Layouts/PraticienLayout';
+import { useTranslation } from '../../../i18n';
 
 function MessageBubble({ message }) {
     const mine = message.fromPractitioner;
@@ -19,7 +20,7 @@ function MessageBubble({ message }) {
     );
 }
 
-function Composer({ patientId }) {
+function Composer({ patientId, t }) {
     const { data, setData, post, processing, reset } = useForm({ body: '' });
     const inputRef = useRef(null);
 
@@ -52,7 +53,7 @@ function Composer({ patientId }) {
             <input
                 ref={inputRef}
                 type="text"
-                placeholder="Écrire un message…"
+                placeholder={t('Écrire un message…')}
                 value={data.body}
                 onChange={(e) => setData('body', e.target.value)}
                 className="min-w-0 flex-1 rounded-xl border border-sand bg-white px-3.5 py-2.5 text-sm text-forest focus:ring-2 focus:ring-sage focus:outline-none"
@@ -60,7 +61,7 @@ function Composer({ patientId }) {
             <button
                 type="submit"
                 disabled={processing || !data.body}
-                aria-label="Envoyer"
+                aria-label={t('Envoyer')}
                 className="flex size-11 shrink-0 items-center justify-center rounded-full bg-forest disabled:opacity-50"
             >
                 <Send size={18} strokeWidth={1.7} className="text-cream" />
@@ -69,7 +70,7 @@ function Composer({ patientId }) {
     );
 }
 
-function ConversationPanel({ activePatient, messages, visible }) {
+function ConversationPanel({ activePatient, messages, visible, t }) {
     const listRef = useRef(null);
 
     // À l'ouverture d'une discussion (ou à l'arrivée d'un nouveau message),
@@ -101,7 +102,7 @@ function ConversationPanel({ activePatient, messages, visible }) {
                         <h2 className="font-display truncate text-lg font-semibold text-forest">{activePatient.name}</h2>
                     </div>
                 ) : (
-                    <h2 className="font-display text-lg font-semibold text-forest">Messages</h2>
+                    <h2 className="font-display text-lg font-semibold text-forest">{t('Messages')}</h2>
                 )}
             </div>
 
@@ -109,25 +110,25 @@ function ConversationPanel({ activePatient, messages, visible }) {
                 {!activePatient && (
                     <div className="flex h-full flex-col items-center justify-center text-center">
                         <MessageSquare className="mb-3 text-forest/30" size={36} />
-                        <p className="text-sm text-forest/60">Sélectionnez un patient pour voir la conversation.</p>
+                        <p className="text-sm text-forest/60">{t('Sélectionnez un patient pour voir la conversation.')}</p>
                     </div>
                 )}
 
                 {activePatient && messages.length === 0 && (
                     <div className="flex h-full flex-col items-center justify-center text-center">
-                        <p className="text-sm text-forest/60">Aucun message pour l'instant, commencez la conversation.</p>
+                        <p className="text-sm text-forest/60">{t('Aucun message pour l’instant, commencez la conversation.')}</p>
                     </div>
                 )}
 
                 {activePatient && messages.map((m) => <MessageBubble key={m.id} message={m} />)}
             </div>
 
-            {activePatient && <Composer patientId={activePatient.id} />}
+            {activePatient && <Composer patientId={activePatient.id} t={t} />}
         </div>
     );
 }
 
-function ConversationsList({ conversations, activePatientId, visible }) {
+function ConversationsList({ conversations, activePatientId, visible, t }) {
     return (
         <div
             className={
@@ -137,11 +138,11 @@ function ConversationsList({ conversations, activePatientId, visible }) {
             }
         >
             <div className="shrink-0 border-b border-sand/50 px-5 py-4">
-                <h3 className="font-display text-base font-semibold text-forest">Patients</h3>
+                <h3 className="font-display text-base font-semibold text-forest">{t('Patients')}</h3>
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto">
-                {conversations.length === 0 && <p className="px-5 py-6 text-sm text-forest/60">Aucun patient pour l'instant.</p>}
+                {conversations.length === 0 && <p className="px-5 py-6 text-sm text-forest/60">{t('Aucun patient pour l’instant.')}</p>}
 
                 {conversations.map((c) => (
                     <Link
@@ -155,7 +156,7 @@ function ConversationsList({ conversations, activePatientId, visible }) {
                         <div className="relative flex size-9 shrink-0 items-center justify-center rounded-full bg-sage/15 text-sm font-bold text-forest">
                             {c.initials}
                             {c.unreadCount > 0 && (
-                                <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-terracotta text-xs font-bold text-white">
+                                <span className="absolute -top-1 -end-1 flex size-4 items-center justify-center rounded-full bg-terracotta text-xs font-bold text-white">
                                     {c.unreadCount}
                                 </span>
                             )}
@@ -165,7 +166,7 @@ function ConversationsList({ conversations, activePatientId, visible }) {
                                 <span className="truncate text-sm font-semibold text-forest">{c.name}</span>
                                 {c.lastMessageAt && <span className="shrink-0 text-xs text-forest/40">{c.lastMessageAt}</span>}
                             </div>
-                            <p className="truncate text-xs text-forest/60">{c.lastMessage ?? 'Aucun message'}</p>
+                            <p className="truncate text-xs text-forest/60">{c.lastMessage ?? t('Aucun message')}</p>
                         </div>
                     </Link>
                 ))}
@@ -175,11 +176,13 @@ function ConversationsList({ conversations, activePatientId, visible }) {
 }
 
 export default function MessagesIndex({ conversations, activePatient, messages }) {
+    const { t } = useTranslation();
+
     return (
-        <PraticienLayout title="Messages">
+        <PraticienLayout title={t('Messages')}>
             <div className="flex flex-col gap-5 lg:h-[calc(100vh-150px)] lg:flex-row">
-                <ConversationPanel activePatient={activePatient} messages={messages} visible={Boolean(activePatient)} />
-                <ConversationsList conversations={conversations} activePatientId={activePatient?.id} visible={!activePatient} />
+                <ConversationPanel activePatient={activePatient} messages={messages} visible={Boolean(activePatient)} t={t} />
+                <ConversationsList conversations={conversations} activePatientId={activePatient?.id} visible={!activePatient} t={t} />
             </div>
         </PraticienLayout>
     );
