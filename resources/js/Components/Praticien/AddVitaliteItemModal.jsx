@@ -1,8 +1,10 @@
 import { useForm } from '@inertiajs/react';
 import Modal from '../Modal';
+import { useTranslation } from '../../i18n';
 
 export default function AddVitaliteItemModal({ open, onClose, patientId }) {
     const { data, setData, post, processing, errors, reset } = useForm({ text: '' });
+    const { t } = useTranslation();
 
     function close() {
         reset();
@@ -18,11 +20,11 @@ export default function AddVitaliteItemModal({ open, onClose, patientId }) {
     }
 
     return (
-        <Modal open={open} onClose={close} title="Ajouter une consigne" maxWidth={420}>
+        <Modal open={open} onClose={close} title={t('Ajouter une consigne')} maxWidth={420}>
             <form onSubmit={submit} className="flex flex-col gap-4">
                 <div>
                     <label htmlFor="vitalite-text" className="mb-1 block text-sm font-semibold text-forest">
-                        Consigne
+                        {t('Consigne')}
                     </label>
                     <input
                         id="vitalite-text"
@@ -41,7 +43,7 @@ export default function AddVitaliteItemModal({ open, onClose, patientId }) {
                     disabled={processing || !data.text}
                     className="rounded-xl bg-forest py-2.75 text-sm font-semibold text-cream disabled:opacity-50"
                 >
-                    Ajouter
+                    {t('Ajouter')}
                 </button>
             </form>
         </Modal>

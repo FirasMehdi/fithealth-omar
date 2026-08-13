@@ -5,19 +5,24 @@ import AddItemModal from '../../../Components/Praticien/AddItemModal';
 import AddVitaliteItemModal from '../../../Components/Praticien/AddVitaliteItemModal';
 import AssignProtocolModal from '../../../Components/Praticien/AssignProtocolModal';
 import PraticienLayout from '../../../Layouts/PraticienLayout';
+import { useTranslation } from '../../../i18n';
 
-const TABS = [
-    { key: 'protocole', label: 'Protocole' },
-    { key: 'suivi', label: 'Suivi' },
-    { key: 'checkins', label: 'Check-ins' },
-];
+function tabs(t) {
+    return [
+        { key: 'protocole', label: t('Protocole') },
+        { key: 'suivi', label: t('Suivi') },
+        { key: 'checkins', label: t('Check-ins') },
+    ];
+}
 
-const SCORE_LABELS = [
-    ['energy', 'Énergie'],
-    ['sleep', 'Sommeil'],
-    ['digestion', 'Digestion'],
-    ['mood', 'Humeur'],
-];
+function scoreLabels(t) {
+    return [
+        ['energy', t('Énergie')],
+        ['sleep', t('Sommeil')],
+        ['digestion', t('Digestion')],
+        ['mood', t('Humeur')],
+    ];
+}
 
 function scoreTone(value) {
     if (value >= 7) return 'bg-sage/18 text-forest';
@@ -25,7 +30,7 @@ function scoreTone(value) {
     return 'bg-terracotta/15 text-terracotta';
 }
 
-function InertButton({ children, variant = 'outline' }) {
+function InertButton({ children, variant = 'outline', t }) {
     const base = 'cursor-not-allowed whitespace-nowrap rounded-xl font-semibold opacity-50';
     const variants = {
         outline: 'border border-sage px-4.5 py-2.75 text-sm text-forest',
@@ -33,7 +38,7 @@ function InertButton({ children, variant = 'outline' }) {
     };
 
     return (
-        <button type="button" disabled title="Bientôt disponible" className={`${base} ${variants[variant]}`}>
+        <button type="button" disabled title={t('Bientôt disponible')} className={`${base} ${variants[variant]}`}>
             {children}
         </button>
     );
@@ -56,12 +61,12 @@ function AddButton({ children, onClick }) {
  * courant — regroupés dans une seule carte avec une barre verticale, comme
  * demandé, plutôt que deux cartes empilées.
  */
-function MouvementNutritionCard({ mouvementItems, nutritionItems, open, onToggle, onAddMouvement, onAddNutrition }) {
+function MouvementNutritionCard({ mouvementItems, nutritionItems, open, onToggle, onAddMouvement, onAddNutrition, t }) {
     return (
         <div className="rounded-2xl bg-white shadow-lg shadow-forest/20">
             <div onClick={onToggle} className="flex cursor-pointer items-center gap-6 px-6 py-4.5">
-                <h3 className="font-display flex-1 text-lg font-semibold text-forest">Nutrition</h3>
-                <h3 className="font-display flex-1 text-lg font-semibold text-forest">Mouvement</h3>
+                <h3 className="font-display flex-1 text-lg font-semibold text-forest">{t('Nutrition')}</h3>
+                <h3 className="font-display flex-1 text-lg font-semibold text-forest">{t('Mouvement')}</h3>
                 <ChevronDown size={18} className={'shrink-0 text-sage transition-transform ' + (open ? '' : '-rotate-90')} />
             </div>
 
@@ -70,15 +75,15 @@ function MouvementNutritionCard({ mouvementItems, nutritionItems, open, onToggle
                     <div className="flex-1">
                         <ul>
                             {nutritionItems.map((item) => (
-                                <li key={item.title} className="relative mb-2 pl-4 text-sm leading-7 text-forest/80">
-                                    <span className="absolute top-2 left-0 size-1.25 rounded-full bg-sage" />
+                                <li key={item.title} className="relative mb-2 ps-4 text-sm leading-7 text-forest/80">
+                                    <span className="absolute top-2 start-0 size-1.25 rounded-full bg-sage" />
                                     {item.title}
                                     {item.days && <span className="text-forest/50"> · {item.days}</span>}
                                 </li>
                             ))}
                         </ul>
                         <div className="mt-2">
-                            <AddButton onClick={onAddNutrition}>+ Ajouter un élément nutrition</AddButton>
+                            <AddButton onClick={onAddNutrition}>+ {t('Ajouter un élément nutrition')}</AddButton>
                         </div>
                     </div>
 
@@ -91,10 +96,10 @@ function MouvementNutritionCard({ mouvementItems, nutritionItems, open, onToggle
                                     className="grid gap-x-3 gap-y-2 text-sm"
                                     style={{ gridTemplateColumns: '1.6fr 0.7fr 0.9fr 1.1fr', minWidth: '360px' }}
                                 >
-                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Exercice</div>
-                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Séries</div>
-                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Volume</div>
-                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">Jours</div>
+                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">{t('Exercice')}</div>
+                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">{t('Séries')}</div>
+                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">{t('Volume')}</div>
+                                    <div className="text-xs font-bold tracking-wide text-forest/50 uppercase">{t('Jours')}</div>
 
                                     {mouvementItems.map((item) => (
                                         <div key={item.title} className="contents">
@@ -108,7 +113,7 @@ function MouvementNutritionCard({ mouvementItems, nutritionItems, open, onToggle
                             </div>
                         )}
                         <div className="mt-3.5">
-                            <AddButton onClick={onAddMouvement}>+ Ajouter un exercice</AddButton>
+                            <AddButton onClick={onAddMouvement}>+ {t('Ajouter un exercice')}</AddButton>
                         </div>
                     </div>
                 </div>
@@ -122,25 +127,25 @@ function MouvementNutritionCard({ mouvementItems, nutritionItems, open, onToggle
  * directement (voir docs/MODELE-DONNEES.md). Toujours visibles, pas liées
  * aux onglets Protocole/Suivi/Check-ins.
  */
-function VitaliteSection({ items, onAdd }) {
+function VitaliteSection({ items, onAdd, t }) {
     return (
         <div className="mb-4 rounded-2xl bg-white px-6 py-4.5 shadow-lg shadow-forest/20">
-            <h3 className="font-display mb-3 text-lg font-semibold text-forest">Vitalité</h3>
+            <h3 className="font-display mb-3 text-lg font-semibold text-forest">{t('Vitalité')}</h3>
 
             {items.length === 0 ? (
-                <p className="mb-3 text-sm text-forest/60">Aucune consigne pour l'instant.</p>
+                <p className="mb-3 text-sm text-forest/60">{t('Aucune consigne pour l’instant.')}</p>
             ) : (
                 <ul className="mb-3">
                     {items.map((item) => (
-                        <li key={item.id} className="relative mb-2 pl-4 text-sm leading-7 text-forest/80">
-                            <span className="absolute top-2 left-0 size-1.25 rounded-full bg-sage" />
+                        <li key={item.id} className="relative mb-2 ps-4 text-sm leading-7 text-forest/80">
+                            <span className="absolute top-2 start-0 size-1.25 rounded-full bg-sage" />
                             {item.text}
                         </li>
                     ))}
                 </ul>
             )}
 
-            <AddButton onClick={onAdd}>+ Ajouter une consigne</AddButton>
+            <AddButton onClick={onAdd}>+ {t('Ajouter une consigne')}</AddButton>
         </div>
     );
 }
@@ -169,17 +174,17 @@ function DaySection({ label, items }) {
     );
 }
 
-function WeekPlanCard({ weekPlan }) {
+function WeekPlanCard({ weekPlan, t }) {
     return (
         <div className="rounded-2xl bg-white px-6 py-5.5 shadow-lg shadow-forest/20">
-            <h3 className="font-display mb-4 text-base font-semibold text-forest">Semaine en cours</h3>
+            <h3 className="font-display mb-4 text-base font-semibold text-forest">{t('Semaine en cours')}</h3>
             <div>
                 {weekPlan.map((day) => (
                     <div key={day.day} className="flex gap-3.5 border-t border-sand/30 py-2.5 first:border-t-0 first:pt-0">
                         <div className="w-8.5 shrink-0 pt-px text-xs font-bold text-forest/50">{day.day}</div>
                         <div className="flex flex-1 flex-col gap-2.5">
-                            <DaySection label="Sport" items={day.sport} />
-                            <DaySection label="Nutrition" items={day.nutrition} />
+                            <DaySection label={t('Sport')} items={day.sport} />
+                            <DaySection label={t('Nutrition')} items={day.nutrition} />
                         </div>
                     </div>
                 ))}
@@ -199,12 +204,14 @@ function ScoreBadge({ label, value }) {
     );
 }
 
-function CheckinHistoryCard({ checkins }) {
+function CheckinHistoryCard({ checkins, t }) {
+    const SCORE_LABELS = scoreLabels(t);
+
     return (
         <div className="rounded-2xl bg-white px-6 py-5.5 shadow-lg shadow-forest/20">
-            <h3 className="font-display mb-4 text-base font-semibold text-forest">Historique des check-ins</h3>
+            <h3 className="font-display mb-4 text-base font-semibold text-forest">{t('Historique des check-ins')}</h3>
             <div>
-                {checkins.length === 0 && <p className="text-sm text-forest/60">Aucun check-in pour l'instant.</p>}
+                {checkins.length === 0 && <p className="text-sm text-forest/60">{t('Aucun check-in pour l’instant.')}</p>}
                 {checkins.map((c, i) => (
                     <div key={i} className="border-t border-sand/30 py-3.5 first:border-t-0 first:pt-0">
                         <div className="mb-2 text-sm font-semibold text-forest">{c.date}</div>
@@ -221,16 +228,18 @@ function CheckinHistoryCard({ checkins }) {
     );
 }
 
-function SuiviTab({ weekPlan, checkins }) {
+function SuiviTab({ weekPlan, checkins, t }) {
     return (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.1fr_1fr]">
-            <WeekPlanCard weekPlan={weekPlan} />
-            <CheckinHistoryCard checkins={checkins} />
+            <WeekPlanCard weekPlan={weekPlan} t={t} />
+            <CheckinHistoryCard checkins={checkins} t={t} />
         </div>
     );
 }
 
-function CheckinCard({ checkin }) {
+function CheckinCard({ checkin, t }) {
+    const SCORE_LABELS = scoreLabels(t);
+
     return (
         <div className="flex flex-wrap items-center gap-6 rounded-2xl bg-white px-6 py-5 shadow-lg shadow-forest/20">
             <div className="min-w-35 text-sm font-semibold text-forest">{checkin.date}</div>
@@ -251,17 +260,19 @@ function CheckinCard({ checkin }) {
 
             {checkin.note && <p className="min-w-55 flex-1 text-sm text-forest/80">« {checkin.note} »</p>}
 
-            <InertButton variant="small">Répondre</InertButton>
+            <InertButton variant="small" t={t}>
+                {t('Répondre')}
+            </InertButton>
         </div>
     );
 }
 
-function CheckinsTab({ checkins }) {
+function CheckinsTab({ checkins, t }) {
     if (checkins.length === 0) {
         return (
             <div className="rounded-2xl bg-white px-6 py-16 text-center">
-                <p className="mb-1 text-base font-semibold text-forest">Aucun check-in reçu</p>
-                <p className="text-sm text-forest/60">Ce patient n'a pas encore complété de check-in.</p>
+                <p className="mb-1 text-base font-semibold text-forest">{t('Aucun check-in reçu')}</p>
+                <p className="text-sm text-forest/60">{t('Ce patient n’a pas encore complété de check-in.')}</p>
             </div>
         );
     }
@@ -269,7 +280,7 @@ function CheckinsTab({ checkins }) {
     return (
         <div className="flex flex-col gap-3.5">
             {checkins.map((c, i) => (
-                <CheckinCard key={i} checkin={c} />
+                <CheckinCard key={i} checkin={c} t={t} />
             ))}
         </div>
     );
@@ -281,13 +292,15 @@ export default function Show({ patient, protocol, weekPlan, checkins, templates,
     const [assignOpen, setAssignOpen] = useState(false);
     const [addItemPillar, setAddItemPillar] = useState(null);
     const [addVitaliteOpen, setAddVitaliteOpen] = useState(false);
+    const { t } = useTranslation();
+    const TABS = tabs(t);
 
     return (
         <PraticienLayout title={patient.name}>
             <div className="mx-auto" style={{ maxWidth: '1180px' }}>
                 <div className="mb-5 text-sm text-forest/60">
                     <Link href="/praticien/patients" className="hover:text-forest">
-                        Patients
+                        {t('Patients')}
                     </Link>
                     <span className="mx-1.5 text-forest/30">/</span>
                     <span className="text-forest">{patient.name}</span>
@@ -316,32 +329,32 @@ export default function Show({ patient, protocol, weekPlan, checkins, templates,
                             href={`/praticien/messages/${patient.id}`}
                             className="rounded-xl border border-sage px-4.5 py-2.75 text-sm font-semibold text-forest hover:bg-sage/10"
                         >
-                            Message
+                            {t('Message')}
                         </Link>
                         <button
                             type="button"
                             onClick={() => setAssignOpen(true)}
                             className="rounded-xl bg-forest px-4.5 py-2.75 text-sm font-semibold text-cream hover:opacity-90"
                         >
-                            Assigner un protocole
+                            {t('Assigner un protocole')}
                         </button>
                     </div>
                 </div>
 
-                <VitaliteSection items={vitalite} onAdd={() => setAddVitaliteOpen(true)} />
+                <VitaliteSection items={vitalite} onAdd={() => setAddVitaliteOpen(true)} t={t} />
 
                 <div className="mb-6.5 flex gap-1 border-b border-sand">
-                    {TABS.map((t) => (
+                    {TABS.map((tabItem) => (
                         <button
-                            key={t.key}
+                            key={tabItem.key}
                             type="button"
-                            onClick={() => setTab(t.key)}
+                            onClick={() => setTab(tabItem.key)}
                             className={
                                 '-mb-px rounded-t-lg border-b-2 px-4.5 py-3 text-sm font-semibold ' +
-                                (tab === t.key ? 'border-sage text-forest' : 'border-transparent text-forest/50')
+                                (tab === tabItem.key ? 'border-sage text-forest' : 'border-transparent text-forest/50')
                             }
                         >
-                            {t.label}
+                            {tabItem.label}
                         </button>
                     ))}
                 </div>
@@ -355,23 +368,24 @@ export default function Show({ patient, protocol, weekPlan, checkins, templates,
                             onToggle={() => setProtocolOpen((v) => !v)}
                             onAddMouvement={() => setAddItemPillar('mouvement')}
                             onAddNutrition={() => setAddItemPillar('nutrition')}
+                            t={t}
                         />
                     ) : (
                         <div className="rounded-2xl bg-white px-6 py-16 text-center">
-                            <p className="mb-1 text-base font-semibold text-forest">Aucun protocole actif</p>
-                            <p className="mb-4 text-sm text-forest/60">Ce patient n'a pas encore de protocole assigné.</p>
+                            <p className="mb-1 text-base font-semibold text-forest">{t('Aucun protocole actif')}</p>
+                            <p className="mb-4 text-sm text-forest/60">{t('Ce patient n’a pas encore de protocole assigné.')}</p>
                             <button
                                 type="button"
                                 onClick={() => setAssignOpen(true)}
                                 className="rounded-xl bg-forest px-4.5 py-2.75 text-sm font-semibold text-cream hover:opacity-90"
                             >
-                                Assigner un protocole
+                                {t('Assigner un protocole')}
                             </button>
                         </div>
                     ))}
 
-                {tab === 'suivi' && <SuiviTab weekPlan={weekPlan} checkins={checkins} />}
-                {tab === 'checkins' && <CheckinsTab checkins={checkins} />}
+                {tab === 'suivi' && <SuiviTab weekPlan={weekPlan} checkins={checkins} t={t} />}
+                {tab === 'checkins' && <CheckinsTab checkins={checkins} t={t} />}
             </div>
 
             <AssignProtocolModal
