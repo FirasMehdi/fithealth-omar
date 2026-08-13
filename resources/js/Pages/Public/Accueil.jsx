@@ -2,6 +2,7 @@ import { Head } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import LoginModal from '../../Components/LoginModal';
 import ParcoursModal from '../../Components/ParcoursModal';
+import PlanInterestModal from '../../Components/PlanInterestModal';
 import logo from '../../../images/fithealth.png';
 import heroPhoto from '../../../images/herosection1.png';
 import praticienPhoto from '../../../images/zou.png';
@@ -205,6 +206,7 @@ export default function Accueil() {
     const [faqOpen, setFaqOpen] = useState(0);
     const [loginOpen, setLoginOpen] = useState(false);
     const [parcoursOpen, setParcoursOpen] = useState(false);
+    const [interestPlan, setInterestPlan] = useState(null);
 
     useEffect(() => {
         const onResize = () => setIsNarrow(window.innerWidth < 900);
@@ -334,7 +336,7 @@ export default function Accueil() {
                 style={{
                     padding: 'clamp(40px,7vw,88px) clamp(20px,4vw,64px) clamp(48px,6vw,80px)',
                     display: 'grid',
-                    gridTemplateColumns: 'minmax(300px,1fr) minmax(320px,1fr)',
+                    gridTemplateColumns: isWide ? 'minmax(300px,1fr) minmax(320px,1fr)' : '1fr',
                     gap: 'clamp(32px,5vw,64px)',
                     alignItems: 'center',
                     maxWidth: 1320,
@@ -375,7 +377,7 @@ export default function Accueil() {
                     </p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 28, flexWrap: 'wrap' }}>
                         <a
-                            href="#rendez-vous"
+                            href="#accompagnements"
                             style={{
                                 textDecoration: 'none',
                                 background: '#1B3A2F',
@@ -579,7 +581,7 @@ export default function Accueil() {
                     maxWidth: 1320,
                     margin: '0 auto',
                     display: 'grid',
-                    gridTemplateColumns: 'minmax(280px,0.85fr) minmax(320px,1.15fr)',
+                    gridTemplateColumns: isWide ? 'minmax(280px,0.85fr) minmax(320px,1.15fr)' : '1fr',
                     gap: 'clamp(32px,5vw,64px)',
                     alignItems: 'center',
                 }}
@@ -658,7 +660,7 @@ export default function Accueil() {
                 <div
                     style={{
                         display: 'grid',
-                        gridTemplateColumns: 'minmax(280px,1fr) minmax(320px,1.1fr)',
+                        gridTemplateColumns: isWide ? 'minmax(280px,1fr) minmax(320px,1.1fr)' : '1fr',
                         gap: 'clamp(32px,5vw,56px)',
                         alignItems: 'center',
                     }}
@@ -780,8 +782,9 @@ export default function Accueil() {
                                     </p>
                                 ))}
                             </div>
-                            <a
-                                href="#rendez-vous"
+                            <button
+                                type="button"
+                                onClick={() => setInterestPlan(plan.title)}
                                 style={{
                                     marginTop: 22,
                                     textAlign: 'center',
@@ -790,13 +793,15 @@ export default function Accueil() {
                                     borderRadius: 12,
                                     fontWeight: 600,
                                     fontSize: 15,
+                                    fontFamily: 'inherit',
+                                    cursor: 'pointer',
                                     background: plan.btnBg,
                                     color: plan.btnColor,
                                     border: plan.btnBorder,
                                 }}
                             >
                                 En savoir plus
-                            </a>
+                            </button>
                         </div>
                     ))}
                 </div>
@@ -957,6 +962,7 @@ export default function Accueil() {
 
             <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
             <ParcoursModal open={parcoursOpen} onClose={() => setParcoursOpen(false)} />
+            <PlanInterestModal open={interestPlan !== null} planTitle={interestPlan} onClose={() => setInterestPlan(null)} />
         </div>
     );
 }

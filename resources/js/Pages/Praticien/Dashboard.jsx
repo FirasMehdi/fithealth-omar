@@ -76,7 +76,7 @@ export default function Dashboard({ todayLabel, stats, growthTrend, observanceTr
                 <StatCard label="Messages non lus" value={stats.unreadMessages} tone="terracotta" />
             </div>
 
-            <div className="mb-5 grid gap-5" style={{ gridTemplateColumns: '1fr 1fr' }}>
+            <div className="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
                 <ChartCard title="Croissance du cabinet" subtitle="Total de patients suivis et nouveaux patients, 12 derniers mois">
                     <GrowthChart trend={growthTrend} />
                 </ChartCard>

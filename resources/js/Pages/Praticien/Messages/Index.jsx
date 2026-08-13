@@ -1,5 +1,6 @@
 import { Link, useForm } from '@inertiajs/react';
-import { MessageSquare, Send } from 'lucide-react';
+import { ArrowLeft, MessageSquare, Send } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 import PraticienLayout from '../../../Layouts/PraticienLayout';
 
 function MessageBubble({ message }) {
@@ -20,6 +21,23 @@ function MessageBubble({ message }) {
 
 function Composer({ patientId }) {
     const { data, setData, post, processing, reset } = useForm({ body: '' });
+    const inputRef = useRef(null);
+
+    // Sur mobile, passer de la liste à la discussion monte ce champ pile sous
+    // le doigt qui vient de taper le lien — certains navigateurs mobiles
+    // interprètent ça comme un focus et ouvrent le clavier tout seuls. On le
+    // désamorce explicitement à chaque changement de conversation. On force
+    // aussi le champ dans la vue : Inertia remet le scroll de la page à zéro
+    // à la navigation, donc on scrolle après, dans une frame séparée, pour
+    // ne pas se faire écraser par ce reset.
+    useEffect(() => {
+        const frame = requestAnimationFrame(() => {
+            inputRef.current?.scrollIntoView({ block: 'end', behavior: 'auto' });
+            inputRef.current?.blur();
+        });
+
+        return () => cancelAnimationFrame(frame);
+    }, [patientId]);
 
     function submit(e) {
         e.preventDefault();
@@ -30,43 +48,64 @@ function Composer({ patientId }) {
     }
 
     return (
-        <form onSubmit={submit} className="flex gap-2.5 border-t border-sand/50 px-6 py-4">
+        <form onSubmit={submit} className="flex shrink-0 gap-2.5 border-t border-sand/50 px-6 py-4">
             <input
+                ref={inputRef}
                 type="text"
                 placeholder="Écrire un message…"
                 value={data.body}
                 onChange={(e) => setData('body', e.target.value)}
-                className="flex-1 rounded-xl border border-sand bg-white px-3.5 py-2.5 text-sm text-forest focus:ring-2 focus:ring-sage focus:outline-none"
+                className="min-w-0 flex-1 rounded-xl border border-sand bg-white px-3.5 py-2.5 text-sm text-forest focus:ring-2 focus:ring-sage focus:outline-none"
             />
             <button
                 type="submit"
                 disabled={processing || !data.body}
-                className="flex items-center gap-1.5 rounded-xl bg-forest px-4.5 py-2.75 text-sm font-semibold text-cream disabled:opacity-50"
+                aria-label="Envoyer"
+                className="flex size-11 shrink-0 items-center justify-center rounded-full bg-forest disabled:opacity-50"
             >
-                <Send size={15} />
-                Envoyer
+                <Send size={18} strokeWidth={1.7} className="text-cream" />
             </button>
         </form>
     );
 }
 
-function ConversationPanel({ activePatient, messages }) {
+function ConversationPanel({ activePatient, messages, visible }) {
+    const listRef = useRef(null);
+
+    // À l'ouverture d'une discussion (ou à l'arrivée d'un nouveau message),
+    // on se cale en bas de la liste — sur la conversation la plus récente et
+    // à portée du champ pour écrire, pas sur le premier message de l'historique.
+    useEffect(() => {
+        if (!activePatient || !listRef.current) return;
+        listRef.current.scrollTop = listRef.current.scrollHeight;
+    }, [activePatient?.id, messages.length]);
+
     return (
-        <div className="flex flex-1 flex-col rounded-2xl bg-white shadow-lg shadow-forest/20">
-            <div className="border-b border-sand/50 px-6 py-4">
+        <div
+            className={
+                (visible ? 'flex' : 'hidden') +
+                ' -mx-4 -mt-6 -mb-10 h-[calc(100vh-56px)] flex-1 flex-col bg-white sm:-mx-7' +
+                ' lg:mx-0 lg:my-0 lg:flex lg:h-auto lg:rounded-2xl lg:shadow-lg lg:shadow-forest/20'
+            }
+        >
+            <div className="flex shrink-0 items-center gap-3 border-b border-sand/50 px-4 py-4 sm:px-6">
+                <Link href="/praticien/messages" className="shrink-0 rounded-lg p-1 text-forest hover:bg-cream/60 lg:hidden">
+                    <ArrowLeft size={20} />
+                </Link>
+
                 {activePatient ? (
-                    <div className="flex items-center gap-3">
+                    <div className="flex min-w-0 items-center gap-3">
                         <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sage/15 text-sm font-bold text-forest">
                             {activePatient.initials}
                         </div>
-                        <h2 className="font-display text-lg font-semibold text-forest">{activePatient.name}</h2>
+                        <h2 className="font-display truncate text-lg font-semibold text-forest">{activePatient.name}</h2>
                     </div>
                 ) : (
                     <h2 className="font-display text-lg font-semibold text-forest">Messages</h2>
                 )}
             </div>
 
-            <div className="flex-1 overflow-y-auto px-6 py-5">
+            <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto px-4 py-5 sm:px-6">
                 {!activePatient && (
                     <div className="flex h-full flex-col items-center justify-center text-center">
                         <MessageSquare className="mb-3 text-forest/30" size={36} />
@@ -88,14 +127,20 @@ function ConversationPanel({ activePatient, messages }) {
     );
 }
 
-function ConversationsList({ conversations, activePatientId }) {
+function ConversationsList({ conversations, activePatientId, visible }) {
     return (
-        <div className="flex w-72 shrink-0 flex-col rounded-2xl bg-white shadow-lg shadow-forest/20">
-            <div className="border-b border-sand/50 px-5 py-4">
+        <div
+            className={
+                (visible ? 'flex' : 'hidden') +
+                ' -mx-4 -mt-6 -mb-10 h-[calc(100vh-56px)] w-full shrink-0 flex-col bg-white sm:-mx-7' +
+                ' lg:mx-0 lg:my-0 lg:flex lg:h-auto lg:w-72 lg:rounded-2xl lg:shadow-lg lg:shadow-forest/20'
+            }
+        >
+            <div className="shrink-0 border-b border-sand/50 px-5 py-4">
                 <h3 className="font-display text-base font-semibold text-forest">Patients</h3>
             </div>
 
-            <div className="flex-1 overflow-y-auto">
+            <div className="min-h-0 flex-1 overflow-y-auto">
                 {conversations.length === 0 && <p className="px-5 py-6 text-sm text-forest/60">Aucun patient pour l'instant.</p>}
 
                 {conversations.map((c) => (
@@ -132,9 +177,9 @@ function ConversationsList({ conversations, activePatientId }) {
 export default function MessagesIndex({ conversations, activePatient, messages }) {
     return (
         <PraticienLayout title="Messages">
-            <div className="flex gap-5" style={{ height: 'calc(100vh - 150px)' }}>
-                <ConversationPanel activePatient={activePatient} messages={messages} />
-                <ConversationsList conversations={conversations} activePatientId={activePatient?.id} />
+            <div className="flex flex-col gap-5 lg:h-[calc(100vh-150px)] lg:flex-row">
+                <ConversationPanel activePatient={activePatient} messages={messages} visible={Boolean(activePatient)} />
+                <ConversationsList conversations={conversations} activePatientId={activePatient?.id} visible={!activePatient} />
             </div>
         </PraticienLayout>
     );
