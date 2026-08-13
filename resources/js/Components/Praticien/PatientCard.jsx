@@ -1,13 +1,16 @@
 import { Link } from '@inertiajs/react';
+import { useTranslation } from '../../i18n';
 import ObservanceBar from './ObservanceBar';
 
-const STATUS = {
-    a_jour: { dot: 'bg-sage', bg: 'bg-sage/15', text: 'text-forest', label: 'À jour' },
-    en_retard: { dot: 'bg-terracotta', bg: 'bg-terracotta/12', text: 'text-terracotta', label: 'Check-in en retard' },
-    nouveau: { dot: 'bg-sand', bg: 'bg-sand/50', text: 'text-forest', label: 'Nouveau' },
-};
-
 export default function PatientCard({ patient }) {
+    const { t } = useTranslation();
+
+    const STATUS = {
+        a_jour: { dot: 'bg-sage', bg: 'bg-sage/15', text: 'text-forest', label: t('À jour') },
+        en_retard: { dot: 'bg-terracotta', bg: 'bg-terracotta/12', text: 'text-terracotta', label: t('Check-in en retard') },
+        nouveau: { dot: 'bg-sand', bg: 'bg-sand/50', text: 'text-forest', label: t('Nouveaux') },
+    };
+
     const status = STATUS[patient.status];
 
     return (
@@ -30,11 +33,9 @@ export default function PatientCard({ patient }) {
                 <ObservanceBar value={patient.observance} />
             </div>
 
-            <div className="basis-28 text-sm text-forest/60">
-                {patient.lastCheckIn ?? 'Aucun check-in'}
-            </div>
+            <div className="basis-28 text-sm text-forest/60">{patient.lastCheckIn ?? t('Aucun check-in')}</div>
 
-            <div className="ml-auto shrink-0">
+            <div className="ms-auto shrink-0">
                 <span
                     className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap ${status.bg} ${status.text}`}
                 >
