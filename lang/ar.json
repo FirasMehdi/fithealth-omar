@@ -6,12 +6,10 @@
     "Se déconnecter": "الخروج",
     "Ouvrir le menu": "افتح القائمة",
     "Fermer le menu": "سكّر القائمة",
-
     "Email": "الإيميل",
     "Mot de passe": "كلمة السر",
     "Se connecter": "دخول",
     "Email ou mot de passe incorrect.": "الإيميل أو كلمة السر غالطة.",
-
     "Bonjour, :name": "أهلا، :name",
     "Premier check-in à faire": "لازمك تعمل الشيك-إن الأول",
     "Check-in disponible": "الشيك-إن جاهز",
@@ -24,7 +22,6 @@
     "Comment tu te sens aujourd'hui ?": "كيفاش حالتك اليوم؟",
     "Une question rapide, en quelques secondes.": "سؤال صغير، ياخذ برشة ثواني برك.",
     "Faire mon check-in": "اعمل الشيك-إن",
-
     "Mon programme de la semaine": "البرنامج متاعي لهاذي الجمعة",
     "Pas encore de programme.": "ما عندكش برنامج توا.",
     "Ton praticien va bientôt t'en créer un.": "الطبيب متاعك باش يعملك وحدة قريب.",
@@ -33,7 +30,6 @@
     "Rien aujourd'hui.": "ما فماش حاجة اليوم.",
     "Jour de repos": "يوم راحة",
     "Rien de prévu — repose-toi.": "ما فماش حاجة — استريح شوية.",
-
     "Comment tu te sens ?": "كيفاش حالتك؟",
     "Énergie": "الطاقة",
     "Sommeil": "النوم",
@@ -47,11 +43,9 @@
     "(optionnel)": "(مش إجباري)",
     "Ce que tu veux dire…": "اكتب اللي تحب…",
     "Envoyer mon check-in": "إبعث الشيك-إن",
-
     "Naturopathe & coach": "طبيب طبيعي ومدرب",
     "Pas encore de message. Écris le premier !": "ما فماش رسائل توا. ابعث الأول!",
     "Écrire un message…": "اكتب رسالة…",
-
     "Lun": "الإثنين",
     "Mar": "الثلاثاء",
     "Mer": "الأربعاء",
@@ -66,13 +60,11 @@
     "Vendredi": "الجمعة",
     "Samedi": "السبت",
     "Dimanche": "الأحد",
-
     "Fermer": "سكّر",
     "Tableau de bord": "لوحة القيادة",
     "Patients": "المرضى",
     "Protocoles": "البرامج",
     "Réglages": "الإعدادات",
-
     "Patients actifs": "المرضى الناشطين",
     "Nouveaux ce mois-ci": "جداد هاذ الشهر",
     "Check-ins cette semaine": "الشيك-إن هاذ الجمعة",
@@ -87,7 +79,6 @@
     "Rien à signaler — tous vos patients sont à jour.": "ما فما حتى حاجة — كل مرضاك محدثين.",
     "Check-in en retard": "الشيك-إن متأخر",
     "Observance faible (:n%)": "الالتزام ضعيف (:n%)",
-
     "Total patients suivis": "مجموع المرضى المتابعين",
     "Nouveaux patients": "مرضى جداد",
     "Zone de référence": "المنطقة المرجعية",
@@ -101,7 +92,6 @@
     "Plus de 75%": "أكثر من 75%",
     ":n patient": "مريض :n",
     ":n patients": ":n مرضى",
-
     "Tous": "الكل",
     "En retard": "متأخرين",
     "Nouveaux": "جداد",
@@ -117,7 +107,6 @@
     "Essayez un autre filtre, ou revenez à « Tous ».": "جرب فلتر آخر، ولا رجع لـ« الكل ».",
     "À jour": "محدث",
     "Aucun check-in": "ما فما حتى شيك-إن",
-
     "Protocole": "البرنامج",
     "Suivi": "المتابعة",
     "Check-ins": "الشيك-إن",
@@ -143,7 +132,6 @@
     "Ce patient n'a pas encore de protocole assigné.": "هاذ المريض ما عندوش برنامج توا.",
     "Aucun check-in reçu": "ما وصل حتى شيك-إن",
     "Ce patient n'a pas encore complété de check-in.": "هاذ المريض ما عملش شيك-إن توا.",
-
     "Un protocole actif existe déjà (« :title »). Confirmer ci-dessous archivera automatiquement ce protocole.": "كاين برنامج ناشط توا (« :title »). إذا تأكدت، هاذ البرنامج باش يترشف أوتوماتيكيا.",
     "Point de départ": "نقطة البداية",
     "Protocole vierge": "برنامج فارغ",
@@ -151,12 +139,10 @@
     "Titre du protocole": "عنوان البرنامج",
     "Archiver et assigner": "رشف وخصص",
     "Assigner le protocole": "خصص البرنامج",
-
     "Repas ou consigne": "ماكلة ولا نصيحة",
     "Tous les jours": "كل الأيام",
     "Ajouter": "زيد",
     "Consigne": "نصيحة",
-
     "Nom complet": "الاسم الكامل",
     "Téléphone": "التليفون",
     "Date de naissance": "تاريخ الميلاد",
@@ -169,7 +155,6 @@
     "Antécédents médicaux": "التاريخ الطبي",
     "Traitements en cours": "العلاجات الحالية",
     "Créer le patient": "أعمل المريض",
-
     "Annuler": "إلغاء",
     "Confirmer": "أكد",
     "Supprimer ce modèle ?": "تحب تمسح هاذ الموديل؟",
@@ -190,12 +175,10 @@
     "Ajouter un item": "زيد حاجة",
     "Merci de vérifier les items du modèle.": "تأكد من حاجات الموديل.",
     "Enregistrer": "سجل",
-
     "Envoyer": "إبعث",
     "Sélectionnez un patient pour voir la conversation.": "اختار مريض باش تشوف الحديث.",
     "Aucun message pour l'instant, commencez la conversation.": "ما فما حتى رسالة توا، ابدا الحديث.",
     "Aucun message": "ما فما رسائل",
     "Aucun patient pour l'instant.": "ما عندكش مرضى توا.",
-
     "Cette page arrive bientôt.": "هاذ الصفحة جاية قريب."
 }
