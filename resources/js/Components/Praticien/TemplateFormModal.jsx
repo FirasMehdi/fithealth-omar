@@ -2,16 +2,19 @@ import { useForm } from '@inertiajs/react';
 import { Plus, X } from 'lucide-react';
 import { useEffect } from 'react';
 import Modal from '../Modal';
+import { useTranslation } from '../../i18n';
 
-const DAYS = [
-    { value: 1, label: 'Lun' },
-    { value: 2, label: 'Mar' },
-    { value: 3, label: 'Mer' },
-    { value: 4, label: 'Jeu' },
-    { value: 5, label: 'Ven' },
-    { value: 6, label: 'Sam' },
-    { value: 7, label: 'Dim' },
-];
+function days(t) {
+    return [
+        { value: 1, label: t('Lun') },
+        { value: 2, label: t('Mar') },
+        { value: 3, label: t('Mer') },
+        { value: 4, label: t('Jeu') },
+        { value: 5, label: t('Ven') },
+        { value: 6, label: t('Sam') },
+        { value: 7, label: t('Dim') },
+    ];
+}
 
 const EMPTY_ITEM = { pillar: 'mouvement', title: '', sets: '', reps: '', permanent: true, days: [] };
 
@@ -84,8 +87,9 @@ function flattenItems(items) {
     return flat;
 }
 
-function ItemRow({ item, onChange, onRemove, canRemove }) {
+function ItemRow({ item, onChange, onRemove, canRemove, t }) {
     const isMouvement = item.pillar === 'mouvement';
+    const DAYS = days(t);
 
     function set(field, value) {
         onChange({ ...item, [field]: value });
@@ -99,12 +103,12 @@ function ItemRow({ item, onChange, onRemove, canRemove }) {
         <div className="rounded-xl border border-sand/50 p-3.5">
             <div className="mb-2 flex flex-wrap items-start gap-2">
                 <select value={item.pillar} onChange={(e) => set('pillar', e.target.value)} className={inputClass + ' shrink-0'}>
-                    <option value="mouvement">Mouvement</option>
-                    <option value="nutrition">Nutrition</option>
+                    <option value="mouvement">{t('Mouvement')}</option>
+                    <option value="nutrition">{t('Nutrition')}</option>
                 </select>
                 <input
                     type="text"
-                    placeholder="Titre"
+                    placeholder={t('Titre')}
                     value={item.title}
                     onChange={(e) => set('title', e.target.value)}
                     className={inputClass + ' min-w-0 flex-1 basis-40'}
@@ -124,14 +128,14 @@ function ItemRow({ item, onChange, onRemove, canRemove }) {
                     <input
                         type="number"
                         min="1"
-                        placeholder="Séries"
+                        placeholder={t('Séries')}
                         value={item.sets}
                         onChange={(e) => set('sets', e.target.value)}
                         className={inputClass + ' min-w-0 flex-1 basis-24'}
                     />
                     <input
                         type="text"
-                        placeholder="Volume (12 reps, 30 min…)"
+                        placeholder="12 reps, 30 min…"
                         value={item.reps}
                         onChange={(e) => set('reps', e.target.value)}
                         className={inputClass + ' min-w-0 flex-1 basis-40'}
@@ -146,7 +150,7 @@ function ItemRow({ item, onChange, onRemove, canRemove }) {
                     onChange={(e) => set('permanent', e.target.checked)}
                     className="size-3.5 accent-sage"
                 />
-                Tous les jours
+                {t('Tous les jours')}
             </label>
 
             {!item.permanent && (
@@ -172,6 +176,7 @@ function ItemRow({ item, onChange, onRemove, canRemove }) {
 
 export default function TemplateFormModal({ open, onClose, template }) {
     const isEdit = Boolean(template);
+    const { t } = useTranslation();
     const { data, setData, post, put, transform, processing, errors, reset } = useForm({
         title: '',
         description: '',
@@ -236,11 +241,11 @@ export default function TemplateFormModal({ open, onClose, template }) {
     }
 
     return (
-        <Modal open={open} onClose={close} title={isEdit ? 'Modifier le modèle' : 'Nouveau modèle'} maxWidth={560}>
+        <Modal open={open} onClose={close} title={isEdit ? t('Modifier le modèle') : t('Nouveau modèle')} maxWidth={560}>
             <form onSubmit={submit} className="flex flex-col gap-4">
                 <div>
                     <label htmlFor="template-title" className="mb-1 block text-sm font-semibold text-forest">
-                        Titre du modèle
+                        {t('Titre du modèle')}
                     </label>
                     <input
                         id="template-title"
@@ -254,7 +259,7 @@ export default function TemplateFormModal({ open, onClose, template }) {
 
                 <div>
                     <label htmlFor="template-description" className="mb-1 block text-sm font-semibold text-forest">
-                        Description
+                        {t('Description')}
                     </label>
                     <textarea
                         id="template-description"
@@ -266,8 +271,8 @@ export default function TemplateFormModal({ open, onClose, template }) {
                 </div>
 
                 <div>
-                    <p className="mb-2 text-sm font-semibold text-forest">Items</p>
-                    <div className="flex max-h-80 flex-col gap-2.5 overflow-y-auto pr-1">
+                    <p className="mb-2 text-sm font-semibold text-forest">{t('Items')}</p>
+                    <div className="flex max-h-80 flex-col gap-2.5 overflow-y-auto pe-1">
                         {data.items.map((item, index) => (
                             <ItemRow
                                 key={index}
@@ -275,6 +280,7 @@ export default function TemplateFormModal({ open, onClose, template }) {
                                 onChange={(newItem) => updateItem(index, newItem)}
                                 onRemove={() => removeItem(index)}
                                 canRemove={data.items.length > 1}
+                                t={t}
                             />
                         ))}
                     </div>
@@ -285,10 +291,10 @@ export default function TemplateFormModal({ open, onClose, template }) {
                         className="mt-2.5 flex items-center gap-1.5 text-sm font-semibold text-forest hover:text-sage"
                     >
                         <Plus size={16} />
-                        Ajouter un item
+                        {t('Ajouter un item')}
                     </button>
 
-                    {errors.items && <p className="mt-2 text-sm text-terracotta">Merci de vérifier les items du modèle.</p>}
+                    {errors.items && <p className="mt-2 text-sm text-terracotta">{t('Merci de vérifier les items du modèle.')}</p>}
                 </div>
 
                 <button
@@ -296,7 +302,7 @@ export default function TemplateFormModal({ open, onClose, template }) {
                     disabled={processing || !canSubmit}
                     className="rounded-xl bg-forest py-2.75 text-sm font-semibold text-cream disabled:opacity-50"
                 >
-                    {isEdit ? 'Enregistrer' : 'Créer le modèle'}
+                    {isEdit ? t('Enregistrer') : t('Créer le modèle')}
                 </button>
             </form>
         </Modal>
