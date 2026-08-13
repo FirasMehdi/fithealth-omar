@@ -1,6 +1,9 @@
 import Modal from '../Modal';
+import { useTranslation } from '../../i18n';
 
-export default function ConfirmModal({ open, onClose, onConfirm, processing, title, message, confirmLabel = 'Confirmer' }) {
+export default function ConfirmModal({ open, onClose, onConfirm, processing, title, message, confirmLabel }) {
+    const { t } = useTranslation();
+
     return (
         <Modal open={open} onClose={onClose} title={title} maxWidth={400}>
             <p className="mb-6 text-center text-sm text-forest/70">{message}</p>
@@ -10,7 +13,7 @@ export default function ConfirmModal({ open, onClose, onConfirm, processing, tit
                     onClick={onClose}
                     className="flex-1 rounded-xl border border-sand py-2.75 text-sm font-semibold text-forest"
                 >
-                    Annuler
+                    {t('Annuler')}
                 </button>
                 <button
                     type="button"
@@ -18,7 +21,7 @@ export default function ConfirmModal({ open, onClose, onConfirm, processing, tit
                     disabled={processing}
                     className="flex-1 rounded-xl bg-terracotta py-2.75 text-sm font-semibold text-cream disabled:opacity-50"
                 >
-                    {confirmLabel}
+                    {confirmLabel ?? t('Confirmer')}
                 </button>
             </div>
         </Modal>
