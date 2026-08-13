@@ -10,6 +10,6 @@ class PlaceholderController extends Controller
 {
     public function reglages(): Response
     {
-        return Inertia::render('Praticien/Placeholder', ['title' => 'Réglages']);
+        return Inertia::render('Praticien/Placeholder', ['title' => __('Réglages')]);
     }
 }

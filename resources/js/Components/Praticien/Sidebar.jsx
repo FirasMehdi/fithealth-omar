@@ -1,14 +1,8 @@
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { ClipboardList, LayoutDashboard, LogOut, Menu, MessageSquare, Settings, Users, X } from 'lucide-react';
 import { useState } from 'react';
-
-const NAV_ITEMS = [
-    { label: 'Tableau de bord', href: '/praticien/dashboard', icon: LayoutDashboard },
-    { label: 'Patients', href: '/praticien/patients', icon: Users },
-    { label: 'Protocoles', href: '/praticien/protocoles', icon: ClipboardList },
-    { label: 'Messages', href: '/praticien/messages', icon: MessageSquare },
-    { label: 'Réglages', href: '/praticien/reglages', icon: Settings },
-];
+import { useTranslation } from '../../i18n';
+import LanguageSwitcher from '../LanguageSwitcher';
 
 function initials(name) {
     return name
@@ -22,7 +16,16 @@ export default function Sidebar() {
     const { url, props } = usePage();
     const user = props.auth.user;
     const { post, processing } = useForm();
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
+
+    const navItems = [
+        { label: t('Tableau de bord'), href: '/praticien/dashboard', icon: LayoutDashboard },
+        { label: t('Patients'), href: '/praticien/patients', icon: Users },
+        { label: t('Protocoles'), href: '/praticien/protocoles', icon: ClipboardList },
+        { label: t('Messages'), href: '/praticien/messages', icon: MessageSquare },
+        { label: t('Réglages'), href: '/praticien/reglages', icon: Settings },
+    ];
 
     function logout(e) {
         e.preventDefault();
@@ -32,33 +35,41 @@ export default function Sidebar() {
     return (
         <>
             <div className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-3 bg-forest px-4 lg:hidden">
-                <button type="button" onClick={() => setOpen(true)} aria-label="Ouvrir le menu" className="text-cream">
+                <button type="button" onClick={() => setOpen(true)} aria-label={t('Ouvrir le menu')} className="text-cream">
                     <Menu size={22} />
                 </button>
-                <span className="font-display text-lg font-semibold text-white">Doctor Panel</span>
+                <span className="font-display text-lg font-semibold text-white">FitHealth</span>
             </div>
 
             {open && <div onClick={() => setOpen(false)} className="fixed inset-0 z-40 bg-forest/50 lg:hidden" />}
 
             <aside
                 className={
-                    'fixed inset-y-0 left-0 z-50 flex h-screen w-60 shrink-0 flex-col bg-forest px-4 py-6 transition-transform duration-200 lg:sticky lg:top-0 lg:translate-x-0 ' +
-                    (open ? 'translate-x-0' : '-translate-x-full')
+                    'fixed inset-y-0 start-0 z-50 flex h-screen w-60 shrink-0 flex-col bg-forest px-4 py-6 transition-transform duration-200 lg:sticky lg:top-0 lg:translate-x-0 ' +
+                    (open ? 'translate-x-0' : '-translate-x-full rtl:translate-x-full')
                 }
             >
-                <button type="button" onClick={() => setOpen(false)} aria-label="Fermer le menu" className="mb-3 self-end text-cream lg:hidden">
+                <button
+                    type="button"
+                    onClick={() => setOpen(false)}
+                    aria-label={t('Fermer le menu')}
+                    className="mb-3 self-end text-cream lg:hidden"
+                >
                     <X size={20} />
                 </button>
 
-                <div className="mb-5 ml-2 self-start whitespace-nowrap">
-                    <span className="font-display text-xl font-semibold text-white">Doctor</span>
-                    <span className="font-display text-xl font-semibold text-white"> Panel</span>
+                <div className="mb-5 ms-2 self-start whitespace-nowrap">
+                    <span className="font-display text-xl font-semibold text-white">FitHealth</span>
+                </div>
+
+                <div className="mb-4">
+                    <LanguageSwitcher tone="dark" />
                 </div>
 
                 <div className="mb-5 border-t border-cream/15" />
 
                 <nav className="flex flex-1 flex-col gap-1">
-                    {NAV_ITEMS.map((item) => {
+                    {navItems.map((item) => {
                         const active = url.startsWith(item.href);
                         const Icon = item.icon;
 
@@ -92,7 +103,7 @@ export default function Sidebar() {
                             className="flex cursor-pointer items-center gap-1 text-xs text-cream/60 hover:text-cream"
                         >
                             <LogOut size={12} />
-                            Se déconnecter
+                            {t('Se déconnecter')}
                         </button>
                     </div>
                 </div>
