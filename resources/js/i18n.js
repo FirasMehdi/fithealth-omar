@@ -9,7 +9,9 @@ export function useTranslation() {
         const entries = Object.entries(params).sort(([a], [b]) => b.length - a.length);
 
         for (const [name, value] of entries) {
-            text = text.replaceAll(`:${name}`, value);
+            // Replacer is a function, not a string: avoids `String.replaceAll`
+            // treating "$&", "$$", etc. inside `value` as replacement patterns.
+            text = text.replaceAll(`:${name}`, () => String(value));
         }
 
         return text;
