@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
+import { useTranslation } from '../i18n';
 
 export default function Modal({ open, onClose, title, children, maxWidth = 440 }) {
+    const { t } = useTranslation();
+
     useEffect(() => {
         if (!open) return;
 
@@ -23,8 +26,8 @@ export default function Modal({ open, onClose, title, children, maxWidth = 440 }
                 <button
                     type="button"
                     onClick={onClose}
-                    aria-label="Fermer"
-                    className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-full text-forest hover:bg-forest/10"
+                    aria-label={t('Fermer')}
+                    className="absolute top-4 end-4 flex size-8 items-center justify-center rounded-full text-forest hover:bg-forest/10"
                 >
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M1 1L15 15M15 1L1 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
