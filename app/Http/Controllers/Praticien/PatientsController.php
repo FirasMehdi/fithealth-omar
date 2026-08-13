@@ -21,7 +21,13 @@ use Inertia\Response;
 
 class PatientsController extends Controller
 {
-    private const DAY_LABELS = [1 => 'Lun', 2 => 'Mar', 3 => 'Mer', 4 => 'Jeu', 5 => 'Ven', 6 => 'Sam', 7 => 'Dim'];
+    private function dayLabels(): array
+    {
+        return [
+            1 => __('Lun'), 2 => __('Mar'), 3 => __('Mer'), 4 => __('Jeu'),
+            5 => __('Ven'), 6 => __('Sam'), 7 => __('Dim'),
+        ];
+    }
 
     public function index(Request $request, ObservanceCalculator $observanceCalculator): Response
     {
@@ -43,7 +49,7 @@ class PatientsController extends Controller
                 'initials' => $patient->initials,
                 'goal' => $patient->goal,
                 'observance' => $observanceByPatient[$patient->id] ?? null,
-                'lastCheckIn' => $patient->latestCheckIn?->submitted_at->translatedFormat('d M Y'),
+                'lastCheckIn' => $patient->latestCheckIn?->submitted_at->locale(app()->getLocale())->translatedFormat('d M Y'),
                 'status' => $patient->dashboardStatus,
             ])->values(),
             'initialObservanceTier' => $request->query('observance'),
@@ -90,7 +96,7 @@ class PatientsController extends Controller
             'templates' => ProtocolTemplate::query()->orderBy('title')->get(['id', 'title', 'description']),
             'weekPlan' => $protocol ? $weekPlanBuilder->build($protocol) : [],
             'checkins' => $patient->checkIns()->orderByDesc('submitted_at')->get()->map(fn ($checkIn) => [
-                'date' => $checkIn->submitted_at->translatedFormat('d M Y'),
+                'date' => $checkIn->submitted_at->locale(app()->getLocale())->translatedFormat('d M Y'),
                 'energy' => $checkIn->energy,
                 'sleep' => $checkIn->sleep,
                 'digestion' => $checkIn->digestion,
@@ -106,8 +112,8 @@ class PatientsController extends Controller
         $pillars = $items->pluck('pillar')->unique();
 
         $labels = array_filter([
-            $pillars->contains(Pillar::Mouvement) ? 'Mouvement' : null,
-            $pillars->contains(Pillar::Nutrition) ? 'Nutrition' : null,
+            $pillars->contains(Pillar::Mouvement) ? __('Mouvement') : null,
+            $pillars->contains(Pillar::Nutrition) ? __('Nutrition') : null,
         ]);
 
         return implode(' + ', $labels);
@@ -155,11 +161,13 @@ class PatientsController extends Controller
     private function daysLabel(Collection $items): string
     {
         if ($items->contains(fn (ProtocolItem $item) => $item->day_of_week === null)) {
-            return 'Tous les jours';
+            return __('Tous les jours');
         }
 
+        $labels = $this->dayLabels();
+
         return $items->pluck('day_of_week')->unique()->sort()
-            ->map(fn (int $day) => self::DAY_LABELS[$day])
+            ->map(fn (int $day) => $labels[$day])
             ->implode(', ');
     }
 }
