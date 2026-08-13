@@ -1,5 +1,6 @@
 import { useForm } from '@inertiajs/react';
 import Modal from '../Modal';
+import { useTranslation } from '../../i18n';
 
 const inputClass =
     'w-full rounded-xl border border-sand bg-white px-3.5 py-2.5 text-sm text-forest focus:ring-2 focus:ring-sage focus:outline-none';
@@ -17,6 +18,7 @@ function Field({ label, htmlFor, error, children }) {
 }
 
 export default function AddPatientModal({ open, onClose }) {
+    const { t } = useTranslation();
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -45,9 +47,9 @@ export default function AddPatientModal({ open, onClose }) {
     }
 
     return (
-        <Modal open={open} onClose={close} title="Nouveau patient" maxWidth={560}>
+        <Modal open={open} onClose={close} title={t('Nouveau patient')} maxWidth={560}>
             <form onSubmit={submit} className="flex flex-col gap-4">
-                <Field label="Nom complet" htmlFor="patient-name" error={errors.name}>
+                <Field label={t('Nom complet')} htmlFor="patient-name" error={errors.name}>
                     <input
                         id="patient-name"
                         type="text"
@@ -59,7 +61,7 @@ export default function AddPatientModal({ open, onClose }) {
                 </Field>
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <Field label="Email" htmlFor="patient-email" error={errors.email}>
+                    <Field label={t('Email')} htmlFor="patient-email" error={errors.email}>
                         <input
                             id="patient-email"
                             type="email"
@@ -68,7 +70,7 @@ export default function AddPatientModal({ open, onClose }) {
                             className={inputClass}
                         />
                     </Field>
-                    <Field label="Mot de passe" htmlFor="patient-password" error={errors.password}>
+                    <Field label={t('Mot de passe')} htmlFor="patient-password" error={errors.password}>
                         <input
                             id="patient-password"
                             type="text"
@@ -80,7 +82,7 @@ export default function AddPatientModal({ open, onClose }) {
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <Field label="Téléphone" htmlFor="patient-phone" error={errors.phone}>
+                    <Field label={t('Téléphone')} htmlFor="patient-phone" error={errors.phone}>
                         <input
                             id="patient-phone"
                             type="text"
@@ -89,7 +91,7 @@ export default function AddPatientModal({ open, onClose }) {
                             className={inputClass}
                         />
                     </Field>
-                    <Field label="Date de naissance" htmlFor="patient-birth-date" error={errors.birth_date}>
+                    <Field label={t('Date de naissance')} htmlFor="patient-birth-date" error={errors.birth_date}>
                         <input
                             id="patient-birth-date"
                             type="date"
@@ -101,7 +103,7 @@ export default function AddPatientModal({ open, onClose }) {
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <Field label="Sexe" htmlFor="patient-sex" error={errors.sex}>
+                    <Field label={t('Sexe')} htmlFor="patient-sex" error={errors.sex}>
                         <select
                             id="patient-sex"
                             value={data.sex}
@@ -109,11 +111,11 @@ export default function AddPatientModal({ open, onClose }) {
                             className={inputClass}
                         >
                             <option value="">—</option>
-                            <option value="femme">Femme</option>
-                            <option value="homme">Homme</option>
+                            <option value="femme">{t('Femme')}</option>
+                            <option value="homme">{t('Homme')}</option>
                         </select>
                     </Field>
-                    <Field label="Objectif" htmlFor="patient-goal" error={errors.goal}>
+                    <Field label={t('Objectif')} htmlFor="patient-goal" error={errors.goal}>
                         <input
                             id="patient-goal"
                             type="text"
@@ -126,7 +128,7 @@ export default function AddPatientModal({ open, onClose }) {
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <Field label="Taille (cm)" htmlFor="patient-height" error={errors.height_cm}>
+                    <Field label={t('Taille (cm)')} htmlFor="patient-height" error={errors.height_cm}>
                         <input
                             id="patient-height"
                             type="number"
@@ -136,7 +138,7 @@ export default function AddPatientModal({ open, onClose }) {
                             className={inputClass}
                         />
                     </Field>
-                    <Field label="Poids initial (kg)" htmlFor="patient-weight" error={errors.initial_weight}>
+                    <Field label={t('Poids initial (kg)')} htmlFor="patient-weight" error={errors.initial_weight}>
                         <input
                             id="patient-weight"
                             type="number"
@@ -149,7 +151,7 @@ export default function AddPatientModal({ open, onClose }) {
                     </Field>
                 </div>
 
-                <Field label="Antécédents médicaux" htmlFor="patient-medical-background" error={errors.medical_background}>
+                <Field label={t('Antécédents médicaux')} htmlFor="patient-medical-background" error={errors.medical_background}>
                     <textarea
                         id="patient-medical-background"
                         rows={2}
@@ -159,7 +161,7 @@ export default function AddPatientModal({ open, onClose }) {
                     />
                 </Field>
 
-                <Field label="Traitements en cours" htmlFor="patient-current-treatments" error={errors.current_treatments}>
+                <Field label={t('Traitements en cours')} htmlFor="patient-current-treatments" error={errors.current_treatments}>
                     <textarea
                         id="patient-current-treatments"
                         rows={2}
@@ -174,7 +176,7 @@ export default function AddPatientModal({ open, onClose }) {
                     disabled={processing || !data.name || !data.email || !data.password}
                     className="rounded-xl bg-forest py-2.75 text-sm font-semibold text-cream disabled:opacity-50"
                 >
-                    Créer le patient
+                    {t('Créer le patient')}
                 </button>
             </form>
         </Modal>

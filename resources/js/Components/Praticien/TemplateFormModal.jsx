@@ -135,7 +135,7 @@ function ItemRow({ item, onChange, onRemove, canRemove, t }) {
                     />
                     <input
                         type="text"
-                        placeholder="12 reps, 30 min…"
+                        placeholder={`${t('Volume')} (12 reps, 30 min…)`}
                         value={item.reps}
                         onChange={(e) => set('reps', e.target.value)}
                         className={inputClass + ' min-w-0 flex-1 basis-40'}
