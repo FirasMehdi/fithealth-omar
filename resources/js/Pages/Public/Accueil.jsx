@@ -199,24 +199,26 @@ function plans(t) {
     });
 }
 
-const FAQ_RAW = [
-    {
-        q: 'Est-ce que cela remplace le suivi de mon médecin traitant ?',
-        a: "Non. Mon accompagnement complète le suivi de votre médecin traitant, il ne s'y substitue pas. Toute pathologie diagnostiquée reste suivie par votre médecin habituel.",
-    },
-    {
-        q: 'Comment se déroule le suivi à distance ?',
-        a: 'Entre les consultations, vous renseignez vos indicateurs et vos ressentis dans votre espace personnel. Je les consulte et ajuste votre protocole si nécessaire, avec des échanges par messagerie.',
-    },
-    {
-        q: 'Combien de temps avant de ressentir des effets ?',
-        a: "Cela dépend de chaque personne et de son point de départ. Les premiers ajustements se ressentent souvent dès les premières semaines, mais un changement durable s'installe sur plusieurs mois.",
-    },
-    {
-        q: 'Les consultations sont-elles remboursées ?',
-        a: "La naturopathie et le coaching ne sont pas remboursés par la sécurité sociale. Certaines mutuelles proposent une prise en charge partielle : renseignez-vous auprès de la vôtre.",
-    },
-];
+function faqRaw(t) {
+    return [
+        {
+            q: t('Est-ce que cela remplace le suivi de mon médecin traitant ?'),
+            a: t("Non. Mon accompagnement complète le suivi de votre médecin traitant, il ne s'y substitue pas. Toute pathologie diagnostiquée reste suivie par votre médecin habituel."),
+        },
+        {
+            q: t('Comment se déroule le suivi à distance ?'),
+            a: t('Entre les consultations, vous renseignez vos indicateurs et vos ressentis dans votre espace personnel. Je les consulte et ajuste votre protocole si nécessaire, avec des échanges par messagerie.'),
+        },
+        {
+            q: t('Combien de temps avant de ressentir des effets ?'),
+            a: t("Cela dépend de chaque personne et de son point de départ. Les premiers ajustements se ressentent souvent dès les premières semaines, mais un changement durable s'installe sur plusieurs mois."),
+        },
+        {
+            q: t('Les consultations sont-elles remboursées ?'),
+            a: t('La naturopathie et le coaching ne sont pas remboursés par la sécurité sociale. Certaines mutuelles proposent une prise en charge partielle : renseignez-vous auprès de la vôtre.'),
+        },
+    ];
+}
 
 export default function Accueil() {
     const { t } = useTranslation();
@@ -231,6 +233,7 @@ export default function Accueil() {
     }));
     const SPACE_BENEFITS = spaceBenefits(t);
     const PLANS = plans(t);
+    const FAQ_RAW = faqRaw(t);
     const [isNarrow, setIsNarrow] = useState(() => typeof window !== 'undefined' && window.innerWidth < 900);
     const [navOpen, setNavOpen] = useState(false);
     const [faqOpen, setFaqOpen] = useState(0);
@@ -848,7 +851,7 @@ export default function Accueil() {
                         margin: '0 0 40px',
                     }}
                 >
-                    Questions fréquentes
+                    {t('Questions fréquentes')}
                 </h2>
                 {FAQ_RAW.map((item, i) => {
                     const open = faqOpen === i;
@@ -895,10 +898,10 @@ export default function Accueil() {
             {/* CTA FINAL */}
             <section id="rendez-vous" style={{ padding: 'clamp(56px,7vw,90px) clamp(20px,4vw,64px)', textAlign: 'center' }}>
                 <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(26px,3.4vw,40px)', margin: '0 0 22px' }}>
-                    Prêt·e à faire le premier pas ?
+                    {t('Prêt·e à faire le premier pas ?')}
                 </h2>
                 <p style={{ fontSize: 16, color: '#3E5449', maxWidth: '46ch', margin: '0 auto 30px' }}>
-                    Un premier échange de 20 minutes, sans engagement, pour comprendre votre situation.
+                    {t('Un premier échange de 20 minutes, sans engagement, pour comprendre votre situation.')}
                 </p>
                 <a
                     href="#"
@@ -913,7 +916,7 @@ export default function Accueil() {
                         display: 'inline-block',
                     }}
                 >
-                    Réserver un premier échange
+                    {t('Réserver un premier échange')}
                 </a>
             </section>
 
@@ -935,34 +938,34 @@ export default function Accueil() {
                             <img src={logo} alt="FitHealth" style={{ height: 26, width: 'auto', display: 'block' }} />
                         </div>
                         <p style={{ fontSize: 14, lineHeight: 1.6, color: '#9FB0A4', margin: 0, maxWidth: '26ch' }}>
-                            Naturopathie et coaching en activité physique adaptée, à Tunis et à distance.
+                            {t('Naturopathie et coaching en activité physique adaptée, à Tunis et à distance.')}
                         </p>
                     </div>
                     <div>
                         <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#7FA07E', margin: '0 0 14px' }}>
-                            Navigation
+                            {t('Navigation')}
                         </p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                             <a href="#methode" style={{ color: '#C9D6CC', textDecoration: 'none', fontSize: 14.5 }}>
-                                Méthode
+                                {t('Méthode')}
                             </a>
                             <a href="#accompagnements" style={{ color: '#C9D6CC', textDecoration: 'none', fontSize: 14.5 }}>
-                                Accompagnements
+                                {t('Accompagnements')}
                             </a>
                             <a href="#praticien" style={{ color: '#C9D6CC', textDecoration: 'none', fontSize: 14.5 }}>
-                                Le praticien
+                                {t('Le praticien')}
                             </a>
                             <a href="#faq" style={{ color: '#C9D6CC', textDecoration: 'none', fontSize: 14.5 }}>
-                                Questions fréquentes
+                                {t('Questions fréquentes')}
                             </a>
                         </div>
                     </div>
                     <div>
                         <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#7FA07E', margin: '0 0 14px' }}>
-                            Contact
+                            {t('Contact')}
                         </p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 14.5, color: '#C9D6CC' }}>
-                            <span>Tunis &amp; Sousse — sur rendez-vous</span>
+                            <span>{t('Tunis & Sousse — sur rendez-vous')}</span>
                             <a href="mailto:contact@fithealth.tn" style={{ color: '#C9D6CC', textDecoration: 'none' }}>
                                 contact@fithealth.tn
                             </a>
@@ -973,20 +976,20 @@ export default function Accueil() {
                     </div>
                     <div>
                         <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#7FA07E', margin: '0 0 14px' }}>
-                            Légal
+                            {t('Légal')}
                         </p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                             <a href="#mentions-legales" style={{ color: '#C9D6CC', textDecoration: 'none', fontSize: 14.5 }}>
-                                Mentions légales
+                                {t('Mentions légales')}
                             </a>
                             <a href="#confidentialite" style={{ color: '#C9D6CC', textDecoration: 'none', fontSize: 14.5 }}>
-                                Confidentialité
+                                {t('Confidentialité')}
                             </a>
                         </div>
                     </div>
                 </div>
                 <p style={{ textAlign: 'center', fontSize: 13, color: '#7C8C81', margin: '22px 0 0' }}>
-                    © 2026 FitHealth — Cabinet de naturopathie et coaching, Tunisie
+                    {t('© 2026 FitHealth — Cabinet de naturopathie et coaching, Tunisie')}
                 </p>
             </footer>
 
