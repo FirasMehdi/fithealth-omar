@@ -121,24 +121,22 @@ function pillars(t) {
     ];
 }
 
-const STEPS_RAW = [
-    { num: '01', title: 'Bilan', text: 'Un entretien approfondi sur votre histoire, votre mode de vie et vos objectifs.' },
-    {
-        num: '02',
-        title: 'Protocole personnalisé',
-        text: 'Un plan mouvement et vitalité conçu pour votre réalité, pas un programme standard.',
-    },
-    {
-        num: '03',
-        title: 'Suivi hebdomadaire',
-        text: 'Des points réguliers via votre espace en ligne, entre les consultations.',
-    },
-    { num: '04', title: 'Ajustements', text: 'Le protocole évolue avec vous, selon vos progrès et vos retours.' },
-];
-const STEPS = STEPS_RAW.map((s, i) => ({
-    ...s,
-    connectorColor: i < STEPS_RAW.length - 1 ? '#7FA07E' : 'transparent',
-}));
+function stepsRaw(t) {
+    return [
+        { num: '01', title: t('Bilan'), text: t('Un entretien approfondi sur votre histoire, votre mode de vie et vos objectifs.') },
+        {
+            num: '02',
+            title: t('Protocole personnalisé'),
+            text: t('Un plan mouvement et vitalité conçu pour votre réalité, pas un programme standard.'),
+        },
+        {
+            num: '03',
+            title: t('Suivi hebdomadaire'),
+            text: t('Des points réguliers via votre espace en ligne, entre les consultations.'),
+        },
+        { num: '04', title: t('Ajustements'), text: t('Le protocole évolue avec vous, selon vos progrès et vos retours.') },
+    ];
+}
 
 const SPACE_BENEFITS = [
     'Suivi de vos indicateurs clés (énergie, sommeil, digestion, humeur)',
@@ -216,6 +214,11 @@ export default function Accueil() {
     const HERO_INDICATORS = heroIndicators(t);
     const PROFILES = profiles(t);
     const PILLARS = pillars(t);
+    const STEPS_RAW_ITEMS = stepsRaw(t);
+    const STEPS = STEPS_RAW_ITEMS.map((s, i) => ({
+        ...s,
+        connectorColor: i < STEPS_RAW_ITEMS.length - 1 ? '#7FA07E' : 'transparent',
+    }));
     const [isNarrow, setIsNarrow] = useState(() => typeof window !== 'undefined' && window.innerWidth < 900);
     const [navOpen, setNavOpen] = useState(false);
     const [faqOpen, setFaqOpen] = useState(0);
@@ -572,7 +575,7 @@ export default function Accueil() {
                         margin: '0 0 52px',
                     }}
                 >
-                    Comment se déroule l'accompagnement
+                    {t('Comment se déroule l\'accompagnement')}
                 </h2>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                     {STEPS.map((st) => (
@@ -632,15 +635,13 @@ export default function Accueil() {
                             marginBottom: 20,
                         }}
                     >
-                        Le praticien
+                        {t('Le praticien')}
                     </span>
                     <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(26px,3.2vw,36px)', margin: '0 0 20px' }}>
-                        Médecin avant tout, coach ensuite
+                        {t('Médecin avant tout, coach ensuite')}
                     </h2>
                     <p style={{ fontSize: 16.5, lineHeight: 1.75, color: '#3E5449', margin: '0 0 24px', maxWidth: '56ch' }}>
-                        Je suis médecin, formé à la naturopathie et au coaching en activité physique adaptée. Cette double
-                        approche me permet d'allier la rigueur médicale à un accompagnement humain, sur la durée — sans
-                        promesse de résultat chiffré, avec une exigence de sécurité avant tout.
+                        {t('Je suis médecin, formé aussi à la naturopathie et au coaching sportif. Cette double casquette me permet de vous accompagner sérieusement, mais simplement — sans jargon, à votre rythme.')}
                     </p>
                     <button
                         type="button"
@@ -659,7 +660,7 @@ export default function Accueil() {
                             paddingBottom: 2,
                         }}
                     >
-                        Découvrir mon parcours →
+                        {t('Découvrir mon parcours →')}
                     </button>
                 </div>
             </section>
