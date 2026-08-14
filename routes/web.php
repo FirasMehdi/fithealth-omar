@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\PlanInterestController;
 use App\Http\Controllers\Patient\CheckInController;
 use App\Http\Controllers\Patient\DashboardController as PatientDashboardController;
 use App\Http\Controllers\Patient\MessageController as PatientMessageController;
@@ -21,6 +22,7 @@ use Inertia\Inertia;
 Route::get('/', fn () => Inertia::render('Public/Accueil'))->name('home');
 
 Route::post('/langue', [LocaleController::class, 'update'])->name('locale.update');
+Route::post('/interet', [PlanInterestController::class, 'store'])->name('plan-interest.store');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'create'])->name('login');

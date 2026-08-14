@@ -1,7 +1,6 @@
+import { useForm } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from '../i18n';
-
-const EMPTY_FORM = { lastName: '', firstName: '', phone: '', email: '', goal: '', message: '' };
 
 const fieldStyle = {
     width: '100%',
@@ -30,7 +29,15 @@ function Field({ label, htmlFor, children }) {
 
 export default function PlanInterestModal({ open, planTitle, onClose }) {
     const { t } = useTranslation();
-    const [data, setData] = useState(EMPTY_FORM);
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
+        lastName: '',
+        firstName: '',
+        phone: '',
+        email: '',
+        goal: '',
+        message: '',
+        planTitle: '',
+    });
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
@@ -45,20 +52,26 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
 
     useEffect(() => {
         if (open) {
-            setData(EMPTY_FORM);
+            reset();
+            clearErrors();
+            setData('planTitle', planTitle ?? '');
             setSubmitted(false);
         }
-    }, [open]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open, planTitle]);
 
     if (!open) return null;
 
     function set(field, value) {
-        setData((d) => ({ ...d, [field]: value }));
+        setData(field, value);
     }
 
     function submit(e) {
         e.preventDefault();
-        setSubmitted(true);
+        post('/interet', {
+            preserveScroll: true,
+            onSuccess: () => setSubmitted(true),
+        });
     }
 
     return (
@@ -154,6 +167,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                         autoFocus
                                         style={fieldStyle}
                                     />
+                                    {errors.lastName && <p style={{ color: '#C4643F', fontSize: 13, margin: '6px 0 0' }}>{errors.lastName}</p>}
                                 </Field>
                                 <Field label={t('Prénom')} htmlFor="interest-firstname">
                                     <input
@@ -164,6 +178,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                         onChange={(e) => set('firstName', e.target.value)}
                                         style={fieldStyle}
                                     />
+                                    {errors.firstName && <p style={{ color: '#C4643F', fontSize: 13, margin: '6px 0 0' }}>{errors.firstName}</p>}
                                 </Field>
                             </div>
 
@@ -176,6 +191,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                     onChange={(e) => set('phone', e.target.value)}
                                     style={fieldStyle}
                                 />
+                                {errors.phone && <p style={{ color: '#C4643F', fontSize: 13, margin: '6px 0 0' }}>{errors.phone}</p>}
                             </Field>
 
                             <Field label={t('Adresse mail')} htmlFor="interest-email">
@@ -187,6 +203,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                     onChange={(e) => set('email', e.target.value)}
                                     style={fieldStyle}
                                 />
+                                {errors.email && <p style={{ color: '#C4643F', fontSize: 13, margin: '6px 0 0' }}>{errors.email}</p>}
                             </Field>
 
                             <Field label={t('Objectif')} htmlFor="interest-goal">
@@ -212,6 +229,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
 
                             <button
                                 type="submit"
+                                disabled={processing}
                                 style={{
                                     marginTop: 8,
                                     padding: 12,
@@ -221,7 +239,8 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                     color: '#F7F4ED',
                                     fontWeight: 600,
                                     fontSize: 15,
-                                    cursor: 'pointer',
+                                    cursor: processing ? 'default' : 'pointer',
+                                    opacity: processing ? 0.6 : 1,
                                 }}
                             >
                                 {t('Envoyer ma demande')}
