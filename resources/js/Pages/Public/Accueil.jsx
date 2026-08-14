@@ -146,50 +146,58 @@ function spaceBenefits(t) {
     ];
 }
 
-const PLAN_DEFS = [
-    {
-        key: 'ponctuelle',
-        title: 'Consultation ponctuelle',
-        tagline: 'Pour un bilan ciblé ou une question précise.',
-        features: ['Bilan initial approfondi', 'Recommandations écrites', 'Un point de suivi à 15 jours'],
-    },
-    {
-        key: 'suivi1mois',
-        title: 'Suivi 1 mois',
-        tagline: 'Pour amorcer un changement en profondeur.',
-        features: [
-            'Bilan complet et protocole personnalisé',
-            "Suivi hebdomadaire via l'espace en ligne",
-            'Ajustements réguliers',
-            'Messagerie illimitée',
-        ],
-    },
-    {
-        key: 'suivi3mois',
-        title: 'Suivi 3 mois',
-        tagline: 'Pour un accompagnement dans la durée.',
-        features: [
-            'Tout le suivi 1 mois',
-            'Bilans intermédiaires à 6 et 10 semaines',
-            'Priorité sur les créneaux de consultation',
-        ],
-    },
-];
+function planDefs(t) {
+    return [
+        {
+            key: 'ponctuelle',
+            title: t('Consultation ponctuelle'),
+            tagline: t('Une réponse claire à votre situation, en un seul échange.'),
+            features: [t('Bilan initial approfondi'), t('Recommandations écrites'), t('Un point de suivi à 15 jours')],
+            ctaLabel: t('Réserver mon bilan'),
+        },
+        {
+            key: 'suivi1mois',
+            title: t('Suivi 1 mois'),
+            tagline: t('Le déclic pour changer, avec un vrai suivi derrière vous.'),
+            features: [
+                t('Bilan complet et protocole personnalisé'),
+                t('Suivi hebdomadaire via l\'espace en ligne'),
+                t('Ajustements réguliers'),
+                t('Messagerie illimitée'),
+            ],
+            ctaLabel: t('Commencer mon suivi'),
+        },
+        {
+            key: 'suivi3mois',
+            title: t('Suivi 3 mois'),
+            tagline: t('Le temps qu\'il faut pour que ça tienne, vraiment.'),
+            features: [
+                t('Tout le suivi 1 mois'),
+                t('Bilans intermédiaires à 6 et 10 semaines'),
+                t('Priorité sur les créneaux de consultation'),
+            ],
+            ctaLabel: t('Choisir cette formule'),
+        },
+    ];
+}
 const HIGHLIGHTED_PLAN = 'suivi1mois';
-const PLANS = PLAN_DEFS.map((p) => {
-    const featured = p.key === HIGHLIGHTED_PLAN;
-    return {
-        ...p,
-        featured,
-        bg: featured ? '#1B3A2F' : '#FFFFFF',
-        color: featured ? '#F7F4ED' : '#1B3A2F',
-        dot: '#7FA07E',
-        shadow: featured ? '0 30px 60px -24px rgba(27,58,47,0.45)' : '0 20px 40px -30px rgba(27,58,47,0.2)',
-        btnBg: featured ? '#7FA07E' : 'transparent',
-        btnColor: '#1B3A2F',
-        btnBorder: featured ? 'none' : '1.5px solid #7FA07E',
-    };
-});
+
+function plans(t) {
+    return planDefs(t).map((p) => {
+        const featured = p.key === HIGHLIGHTED_PLAN;
+        return {
+            ...p,
+            featured,
+            bg: featured ? '#1B3A2F' : '#FFFFFF',
+            color: featured ? '#F7F4ED' : '#1B3A2F',
+            dot: '#7FA07E',
+            shadow: featured ? '0 30px 60px -24px rgba(27,58,47,0.45)' : '0 20px 40px -30px rgba(27,58,47,0.2)',
+            btnBg: featured ? '#7FA07E' : 'transparent',
+            btnColor: '#1B3A2F',
+            btnBorder: featured ? 'none' : '1.5px solid #7FA07E',
+        };
+    });
+}
 
 const FAQ_RAW = [
     {
@@ -222,6 +230,7 @@ export default function Accueil() {
         connectorColor: i < STEPS_RAW_ITEMS.length - 1 ? '#7FA07E' : 'transparent',
     }));
     const SPACE_BENEFITS = spaceBenefits(t);
+    const PLANS = plans(t);
     const [isNarrow, setIsNarrow] = useState(() => typeof window !== 'undefined' && window.innerWidth < 900);
     const [navOpen, setNavOpen] = useState(false);
     const [faqOpen, setFaqOpen] = useState(0);
@@ -755,10 +764,10 @@ export default function Accueil() {
                         margin: '0 0 12px',
                     }}
                 >
-                    Trois formules, un même accompagnement
+                    {t('Trois formules, un même accompagnement')}
                 </h2>
                 <p style={{ textAlign: 'center', color: '#6B7568', fontSize: 15.5, maxWidth: '52ch', margin: '0 auto 48px' }}>
-                    Tarifs communiqués lors du premier échange, selon votre situation.
+                    {t('Tarifs communiqués lors du premier échange, selon votre situation.')}
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px,1fr))', gap: 24, alignItems: 'stretch' }}>
                     {PLANS.map((plan) => (
@@ -780,7 +789,7 @@ export default function Accueil() {
                                     style={{
                                         position: 'absolute',
                                         top: -14,
-                                        left: 30,
+                                        insetInlineStart: 30,
                                         background: '#D9C9A8',
                                         color: '#1B3A2F',
                                         fontSize: 12,
@@ -790,15 +799,15 @@ export default function Accueil() {
                                         borderRadius: 999,
                                     }}
                                 >
-                                    Recommandé
+                                    {t('Recommandé')}
                                 </span>
                             )}
                             <h3 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 22, margin: '8px 0 10px' }}>{plan.title}</h3>
                             <p style={{ fontSize: 14.5, opacity: 0.85, margin: '0 0 22px', lineHeight: 1.5 }}>{plan.tagline}</p>
                             <div style={{ flex: 1 }}>
                                 {plan.features.map((f) => (
-                                    <p key={f} style={{ fontSize: 14.5, lineHeight: 1.6, margin: '0 0 10px', paddingLeft: 18, position: 'relative' }}>
-                                        <span style={{ position: 'absolute', left: 0, top: 8, width: 6, height: 6, borderRadius: '50%', background: plan.dot }} />
+                                    <p key={f} style={{ fontSize: 14.5, lineHeight: 1.6, margin: '0 0 10px', paddingInlineStart: 18, position: 'relative' }}>
+                                        <span style={{ position: 'absolute', insetInlineStart: 0, top: 8, width: 6, height: 6, borderRadius: '50%', background: plan.dot }} />
                                         {f}
                                     </p>
                                 ))}
@@ -821,7 +830,7 @@ export default function Accueil() {
                                     border: plan.btnBorder,
                                 }}
                             >
-                                En savoir plus
+                                {plan.ctaLabel}
                             </button>
                         </div>
                     ))}
