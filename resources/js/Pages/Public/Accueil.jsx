@@ -78,44 +78,48 @@ function heroIndicators(t) {
     ];
 }
 
-const PROFILES = [
-    {
-        title: 'Fatigue persistante',
-        text: "Vous vous sentez fatigué·e sans cause identifiée, malgré un sommeil correct. Nous cherchons ensemble les déséquilibres discrets.",
-        icon: <IconFatigue />,
-    },
-    {
-        title: 'Troubles digestifs',
-        text: "Ballonnements, inconfort, transit irrégulier : le terrain digestif est souvent la première étape d'un rééquilibrage durable.",
-        icon: <IconDigestif />,
-    },
-    {
-        title: "Reprise d'activité",
-        text: 'Vous voulez reprendre une activité physique en confiance, sans risque de blessure ni de rechute.',
-        icon: <IconActivite />,
-    },
-];
+function profiles(t) {
+    return [
+        {
+            title: t('Fatigue persistante'),
+            text: t('Vous vous sentez fatigué·e sans cause identifiée, malgré un sommeil correct. Nous cherchons ensemble les déséquilibres discrets.'),
+            icon: <IconFatigue />,
+        },
+        {
+            title: t('Troubles digestifs'),
+            text: t('Ballonnements, inconfort, transit irrégulier : le terrain digestif est souvent la première étape d\'un rééquilibrage durable.'),
+            icon: <IconDigestif />,
+        },
+        {
+            title: t('Reprise d\'activité'),
+            text: t('Vous voulez reprendre une activité physique en confiance, sans risque de blessure ni de rechute.'),
+            icon: <IconActivite />,
+        },
+    ];
+}
 
-const PILLARS = [
-    {
-        title: 'Mouvement',
-        icon: <IconMouvement />,
-        lines: [
-            "Une activité physique adaptée à votre condition réelle, pas à un modèle générique.",
-            'Progression mesurée, sans surentraînement ni promesse de performance.',
-            "Des séances qui s'intègrent dans votre semaine, pas l'inverse.",
-        ],
-    },
-    {
-        title: 'Vitalité',
-        icon: <IconVitalite />,
-        lines: [
-            'Une alimentation ajustée à votre métabolisme, sans régime restrictif.',
-            'Sommeil, stress, hygiène de vie : les fondations souvent négligées.',
-            'Des habitudes qui tiennent, construites une à une.',
-        ],
-    },
-];
+function pillars(t) {
+    return [
+        {
+            title: t('Mouvement'),
+            icon: <IconMouvement />,
+            lines: [
+                t('Une activité physique adaptée à votre condition réelle, pas à un modèle générique.'),
+                t('Progression mesurée, sans surentraînement ni promesse de performance.'),
+                t('Des séances qui s\'intègrent dans votre semaine, pas l\'inverse.'),
+            ],
+        },
+        {
+            title: t('Vitalité'),
+            icon: <IconVitalite />,
+            lines: [
+                t('Une alimentation ajustée à votre métabolisme, sans régime restrictif.'),
+                t('Sommeil, stress, hygiène de vie : les fondations souvent négligées.'),
+                t('Des habitudes qui tiennent, construites une à une.'),
+            ],
+        },
+    ];
+}
 
 const STEPS_RAW = [
     { num: '01', title: 'Bilan', text: 'Un entretien approfondi sur votre histoire, votre mode de vie et vos objectifs.' },
@@ -210,6 +214,8 @@ export default function Accueil() {
     const { t } = useTranslation();
     const NAV_LINKS = navLinks(t);
     const HERO_INDICATORS = heroIndicators(t);
+    const PROFILES = profiles(t);
+    const PILLARS = pillars(t);
     const [isNarrow, setIsNarrow] = useState(() => typeof window !== 'undefined' && window.innerWidth < 900);
     const [navOpen, setNavOpen] = useState(false);
     const [faqOpen, setFaqOpen] = useState(0);
@@ -481,7 +487,7 @@ export default function Accueil() {
                         margin: '0 0 44px',
                     }}
                 >
-                    Vous vous reconnaissez ?
+                    {t('Vous vous reconnaissez ?')}
                 </h2>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px,1fr))', gap: 24 }}>
                     {PROFILES.map((p) => (
@@ -521,7 +527,7 @@ export default function Accueil() {
                         margin: '0 0 44px',
                     }}
                 >
-                    Une méthode, deux piliers
+                    {t('Une méthode, deux piliers')}
                 </h2>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))', gap: 28 }}>
                     {PILLARS.map((pl) => (
@@ -545,8 +551,8 @@ export default function Accueil() {
                             </div>
                             <h3 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 24, margin: '0 0 16px' }}>{pl.title}</h3>
                             {pl.lines.map((line) => (
-                                <p key={line} style={{ fontSize: 15.5, lineHeight: 1.7, color: '#3E5449', margin: '0 0 10px', paddingLeft: 18, position: 'relative' }}>
-                                    <span style={{ position: 'absolute', left: 0, top: 9, width: 6, height: 6, borderRadius: '50%', background: '#7FA07E' }} />
+                                <p key={line} style={{ fontSize: 15.5, lineHeight: 1.7, color: '#3E5449', margin: '0 0 10px', paddingInlineStart: 18, position: 'relative' }}>
+                                    <span style={{ position: 'absolute', insetInlineStart: 0, top: 9, width: 6, height: 6, borderRadius: '50%', background: '#7FA07E' }} />
                                     {line}
                                 </p>
                             ))}
