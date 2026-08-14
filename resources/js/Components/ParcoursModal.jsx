@@ -1,24 +1,30 @@
 import { useEffect } from 'react';
+import { useTranslation } from '../i18n';
 
-const TIMELINE = [
-    {
-        year: 'Formation',
-        title: 'Médecine générale',
-        text: "Diplôme de médecine, avec une pratique clinique qui m'a très vite confronté aux limites d'une approche purement symptomatique.",
-    },
-    {
-        year: 'Spécialisation',
-        title: 'Naturopathie & coaching en activité physique adaptée',
-        text: "Une double formation complémentaire pour agir sur le terrain — sommeil, alimentation, mouvement — plutôt que sur le seul symptôme.",
-    },
-    {
-        year: 'Aujourd’hui',
-        title: 'Cabinet à Tunis, suivi à distance',
-        text: 'Un accompagnement qui combine rigueur médicale et suivi personnalisé, en cabinet comme à distance, sans jamais se substituer à votre médecin traitant.',
-    },
-];
+function timeline(t) {
+    return [
+        {
+            year: t('Formation'),
+            title: t('Médecine générale'),
+            text: t('Diplôme de médecine, avec une pratique clinique qui m\'a très vite confronté aux limites d\'une approche purement symptomatique.'),
+        },
+        {
+            year: t('Spécialisation'),
+            title: t('Naturopathie & coaching en activité physique adaptée'),
+            text: t('Une double formation complémentaire pour agir sur le terrain — sommeil, alimentation, mouvement — plutôt que sur le seul symptôme.'),
+        },
+        {
+            year: t('Aujourd’hui'),
+            title: t('Cabinet à Tunis, suivi à distance'),
+            text: t('Un accompagnement qui combine rigueur médicale et suivi personnalisé, en cabinet comme à distance, sans jamais se substituer à votre médecin traitant.'),
+        },
+    ];
+}
 
 export default function ParcoursModal({ open, onClose }) {
+    const { t } = useTranslation();
+    const TIMELINE = timeline(t);
+
     useEffect(() => {
         if (!open) return;
 
@@ -64,11 +70,11 @@ export default function ParcoursModal({ open, onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    aria-label="Fermer"
+                    aria-label={t('Fermer')}
                     style={{
                         position: 'absolute',
                         top: 16,
-                        right: 16,
+                        insetInlineEnd: 16,
                         width: 32,
                         height: 32,
                         borderRadius: '50%',
@@ -94,10 +100,10 @@ export default function ParcoursModal({ open, onClose }) {
                         margin: '0 0 8px',
                     }}
                 >
-                    Mon parcours
+                    {t('Mon parcours')}
                 </h2>
                 <p style={{ fontSize: 15, color: '#6B7568', margin: '0 0 28px' }}>
-                    Médecin avant tout, coach ensuite.
+                    {t('Médecin avant tout, coach ensuite.')}
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
