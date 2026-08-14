@@ -1,11 +1,13 @@
 import { useForm } from '@inertiajs/react';
 import { useEffect } from 'react';
+import { useTranslation } from '../i18n';
 
 export default function LoginModal({ open, onClose }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
     });
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (!open) return;
@@ -56,11 +58,11 @@ export default function LoginModal({ open, onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    aria-label="Fermer"
+                    aria-label={t('Fermer')}
                     style={{
                         position: 'absolute',
                         top: 16,
-                        right: 16,
+                        insetInlineEnd: 16,
                         width: 32,
                         height: 32,
                         borderRadius: '50%',
@@ -87,13 +89,13 @@ export default function LoginModal({ open, onClose }) {
                         margin: '0 0 28px',
                     }}
                 >
-                    Connexion
+                    {t('Connexion')}
                 </h2>
 
                 <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                     <div>
                         <label htmlFor="modal-email" style={{ display: 'block', marginBottom: 6, fontSize: 14, color: '#1B3A2F' }}>
-                            Email
+                            {t('Email')}
                         </label>
                         <input
                             id="modal-email"
@@ -117,7 +119,7 @@ export default function LoginModal({ open, onClose }) {
 
                     <div>
                         <label htmlFor="modal-password" style={{ display: 'block', marginBottom: 6, fontSize: 14, color: '#1B3A2F' }}>
-                            Mot de passe
+                            {t('Mot de passe')}
                         </label>
                         <input
                             id="modal-password"
@@ -154,7 +156,7 @@ export default function LoginModal({ open, onClose }) {
                             opacity: processing ? 0.6 : 1,
                         }}
                     >
-                        Se connecter
+                        {t('Se connecter')}
                     </button>
                 </form>
             </div>
