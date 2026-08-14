@@ -8,7 +8,7 @@ import { useTranslation } from '../../i18n';
 
 function StatCard({ label, value, tone = 'forest' }) {
     return (
-        <div className="min-w-35 flex-1 rounded bg-white px-5.5 py-3.5 shadow-lg shadow-forest/25">
+        <div className="min-w-35 flex-1 rounded-2xl bg-white px-5.5 py-3.5 shadow-lg shadow-forest/20">
             <div className="mb-1.5 text-xs text-forest/60">{label}</div>
             <div className={'text-2xl font-bold tabular-nums ' + (tone === 'terracotta' ? 'text-terracotta' : 'text-forest')}>
                 {value}
@@ -19,7 +19,7 @@ function StatCard({ label, value, tone = 'forest' }) {
 
 function ChartCard({ title, subtitle, children }) {
     return (
-        <div className="rounded bg-white px-6 py-5.5 shadow-lg shadow-forest/25">
+        <div className="rounded-2xl bg-white px-6 py-5.5 shadow-lg shadow-forest/20">
             <h2 className="font-display text-base font-semibold text-forest">{title}</h2>
             <p className="mb-4 text-xs text-forest/60">{subtitle}</p>
             {children}
@@ -29,7 +29,7 @@ function ChartCard({ title, subtitle, children }) {
 
 function Watchlist({ patients, t }) {
     return (
-        <div className="rounded bg-white px-6 py-5.5 shadow-lg shadow-forest/25">
+        <div className="rounded-2xl bg-white px-6 py-5.5 shadow-lg shadow-forest/20">
             <div className="mb-4 flex items-center gap-2">
                 <AlertTriangle size={18} className="text-terracotta" />
                 <h2 className="font-display text-base font-semibold text-forest">{t('À traiter cette semaine')}</h2>
