@@ -138,11 +138,13 @@ function stepsRaw(t) {
     ];
 }
 
-const SPACE_BENEFITS = [
-    'Suivi de vos indicateurs clés (énergie, sommeil, digestion, humeur)',
-    'Messagerie directe avec votre praticien',
-    'Accès à votre protocole et à son historique',
-];
+function spaceBenefits(t) {
+    return [
+        t('Suivi de vos indicateurs clés (énergie, sommeil, digestion, humeur)'),
+        t('Messagerie directe avec votre praticien'),
+        t('Accès à votre protocole et à son historique'),
+    ];
+}
 
 const PLAN_DEFS = [
     {
@@ -219,6 +221,7 @@ export default function Accueil() {
         ...s,
         connectorColor: i < STEPS_RAW_ITEMS.length - 1 ? '#7FA07E' : 'transparent',
     }));
+    const SPACE_BENEFITS = spaceBenefits(t);
     const [isNarrow, setIsNarrow] = useState(() => typeof window !== 'undefined' && window.innerWidth < 900);
     const [navOpen, setNavOpen] = useState(false);
     const [faqOpen, setFaqOpen] = useState(0);
@@ -686,11 +689,10 @@ export default function Accueil() {
                 >
                     <div>
                         <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(26px,3.2vw,36px)', margin: '0 0 20px' }}>
-                            Un suivi qui continue entre les consultations
+                            {t('Un suivi qui continue entre les consultations')}
                         </h2>
                         <p style={{ fontSize: 16, lineHeight: 1.7, color: '#C9D6CC', margin: '0 0 26px', maxWidth: '48ch' }}>
-                            Chaque patient dispose d'un espace personnel pour suivre son évolution, consigner ses ressentis
-                            et rester en lien avec son praticien entre deux rendez-vous.
+                            {t('Chaque patient dispose d\'un espace personnel pour suivre son évolution, consigner ses ressentis et rester en lien avec son praticien entre deux rendez-vous.')}
                         </p>
                         {SPACE_BENEFITS.map((b) => (
                             <div key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 14 }}>
@@ -718,13 +720,13 @@ export default function Accueil() {
                             <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#C4643F' }} />
                             <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#D9C9A8' }} />
                             <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#7FA07E' }} />
-                            <span style={{ marginLeft: 10, fontSize: 12, color: '#6B7568', fontFamily: 'monospace' }}>
+                            <span style={{ marginInlineStart: 10, fontSize: 12, color: '#6B7568', fontFamily: 'monospace' }}>
                                 espace.fithealth.tn/tableau-de-bord
                             </span>
                         </div>
                         <div style={{ padding: '26px 24px' }}>
                             <p style={{ margin: '0 0 18px', fontSize: 13, fontWeight: 600, color: '#6B7568', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                                Tableau de bord patient
+                                {t('Tableau de bord patient')}
                             </p>
                             {HERO_INDICATORS.map((ind) => (
                                 <div key={ind.label} style={{ marginBottom: 16 }}>
