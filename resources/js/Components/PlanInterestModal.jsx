@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from '../i18n';
 
 const EMPTY_FORM = { lastName: '', firstName: '', phone: '', email: '', goal: '', message: '' };
 
@@ -28,6 +29,7 @@ function Field({ label, htmlFor, children }) {
 }
 
 export default function PlanInterestModal({ open, planTitle, onClose }) {
+    const { t } = useTranslation();
     const [data, setData] = useState(EMPTY_FORM);
     const [submitted, setSubmitted] = useState(false);
 
@@ -92,11 +94,11 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                 <button
                     type="button"
                     onClick={onClose}
-                    aria-label="Fermer"
+                    aria-label={t('Fermer')}
                     style={{
                         position: 'absolute',
                         top: 16,
-                        right: 16,
+                        insetInlineEnd: 16,
                         width: 32,
                         height: 32,
                         borderRadius: '50%',
@@ -116,10 +118,10 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                 {submitted ? (
                     <div style={{ textAlign: 'center', padding: '24px 0 8px' }}>
                         <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 22, color: '#1B3A2F', margin: '0 0 12px' }}>
-                            Demande envoyée
+                            {t('Demande envoyée')}
                         </h2>
                         <p style={{ fontSize: 15, color: '#3E5449', lineHeight: 1.6, margin: 0 }}>
-                            Merci, votre demande pour « {planTitle} » a bien été prise en compte. Vous serez recontacté·e rapidement.
+                            {t('Merci, votre demande pour « :plan » a bien été prise en compte. Vous serez recontacté·e rapidement.', { plan: planTitle })}
                         </p>
                     </div>
                 ) : (
@@ -134,7 +136,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                 margin: '0 0 4px',
                             }}
                         >
-                            En savoir plus
+                            {t('En savoir plus')}
                         </h2>
                         {planTitle && (
                             <p style={{ textAlign: 'center', fontSize: 14.5, color: '#6B7568', margin: '0 0 28px' }}>{planTitle}</p>
@@ -142,7 +144,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
 
                         <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-                                <Field label="Nom" htmlFor="interest-lastname">
+                                <Field label={t('Nom')} htmlFor="interest-lastname">
                                     <input
                                         id="interest-lastname"
                                         type="text"
@@ -153,7 +155,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                         style={fieldStyle}
                                     />
                                 </Field>
-                                <Field label="Prénom" htmlFor="interest-firstname">
+                                <Field label={t('Prénom')} htmlFor="interest-firstname">
                                     <input
                                         id="interest-firstname"
                                         type="text"
@@ -165,7 +167,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                 </Field>
                             </div>
 
-                            <Field label="Numéro de téléphone" htmlFor="interest-phone">
+                            <Field label={t('Numéro de téléphone')} htmlFor="interest-phone">
                                 <input
                                     id="interest-phone"
                                     type="tel"
@@ -176,7 +178,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                 />
                             </Field>
 
-                            <Field label="Adresse mail" htmlFor="interest-email">
+                            <Field label={t('Adresse mail')} htmlFor="interest-email">
                                 <input
                                     id="interest-email"
                                     type="email"
@@ -187,7 +189,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                 />
                             </Field>
 
-                            <Field label="Objectif" htmlFor="interest-goal">
+                            <Field label={t('Objectif')} htmlFor="interest-goal">
                                 <input
                                     id="interest-goal"
                                     type="text"
@@ -198,7 +200,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                 />
                             </Field>
 
-                            <Field label="Autre remarque ou question" htmlFor="interest-message">
+                            <Field label={t('Autre remarque ou question')} htmlFor="interest-message">
                                 <textarea
                                     id="interest-message"
                                     rows={3}
@@ -222,7 +224,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                                     cursor: 'pointer',
                                 }}
                             >
-                                Envoyer ma demande
+                                {t('Envoyer ma demande')}
                             </button>
                         </form>
                     </>
