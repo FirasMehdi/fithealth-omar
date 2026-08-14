@@ -117,7 +117,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
 
                 {submitted ? (
                     <div style={{ textAlign: 'center', padding: '24px 0 8px' }}>
-                        <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 22, color: '#1B3A2F', margin: '0 0 12px' }}>
+                        <h2 style={{ fontFamily: "'Fraunces', 'Cairo', serif", fontWeight: 600, fontSize: 22, color: '#1B3A2F', margin: '0 0 12px' }}>
                             {t('Demande envoyée')}
                         </h2>
                         <p style={{ fontSize: 15, color: '#3E5449', lineHeight: 1.6, margin: 0 }}>
@@ -128,7 +128,7 @@ export default function PlanInterestModal({ open, planTitle, onClose }) {
                     <>
                         <h2
                             style={{
-                                fontFamily: "'Fraunces', serif",
+                                fontFamily: "'Fraunces', 'Cairo', serif",
                                 fontWeight: 600,
                                 fontSize: 24,
                                 color: '#1B3A2F',

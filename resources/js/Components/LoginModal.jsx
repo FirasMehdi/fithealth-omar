@@ -81,7 +81,7 @@ export default function LoginModal({ open, onClose }) {
 
                 <h2
                     style={{
-                        fontFamily: "'Fraunces', serif",
+                        fontFamily: "'Fraunces', 'Cairo', serif",
                         fontWeight: 600,
                         fontSize: 24,
                         color: '#1B3A2F',

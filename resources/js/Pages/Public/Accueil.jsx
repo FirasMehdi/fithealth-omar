@@ -250,8 +250,8 @@ export default function Accueil() {
     const isWide = !isNarrow;
 
     return (
-        <div style={{ fontFamily: "'Hanken Grotesk', sans-serif", background: '#F7F4ED', color: '#1B3A2F', overflowX: 'hidden' }}>
-            <Head title="FitHealth — Naturopathie & coaching" />
+        <div style={{ fontFamily: "'Hanken Grotesk', 'Cairo', sans-serif", background: '#F7F4ED', color: '#1B3A2F', overflowX: 'hidden' }}>
+            <Head title={`FitHealth — ${t('Naturopathie & coaching')}`} />
 
             {/* NAV */}
             <nav
@@ -398,7 +398,7 @@ export default function Accueil() {
                     </span>
                     <h1
                         style={{
-                            fontFamily: "'Fraunces', serif",
+                            fontFamily: "'Fraunces', 'Cairo', serif",
                             fontWeight: 600,
                             fontSize: 'clamp(36px,5.2vw,60px)',
                             lineHeight: 1.08,
@@ -453,7 +453,7 @@ export default function Accueil() {
                     >
                         <img
                             src={heroPhoto}
-                            alt="Le praticien en séance, portrait éditorial"
+                            alt={t('Le praticien en séance, portrait éditorial')}
                             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                         />
                     </div>
@@ -498,7 +498,7 @@ export default function Accueil() {
             <section style={{ padding: 'clamp(48px,6vw,80px) clamp(20px,4vw,64px)', maxWidth: 1320, margin: '0 auto' }}>
                 <h2
                     style={{
-                        fontFamily: "'Fraunces', serif",
+                        fontFamily: "'Fraunces', 'Cairo', serif",
                         fontWeight: 600,
                         fontSize: 'clamp(26px,3.2vw,38px)',
                         textAlign: 'center',
@@ -527,7 +527,7 @@ export default function Accueil() {
                             >
                                 {p.icon}
                             </div>
-                            <h3 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 20, margin: '0 0 10px' }}>{p.title}</h3>
+                            <h3 style={{ fontFamily: "'Fraunces', 'Cairo', serif", fontWeight: 600, fontSize: 20, margin: '0 0 10px' }}>{p.title}</h3>
                             <p style={{ fontSize: 15, lineHeight: 1.6, color: '#3E5449', margin: 0 }}>{p.text}</p>
                         </div>
                     ))}
@@ -538,7 +538,7 @@ export default function Accueil() {
             <section id="methode" style={{ padding: 'clamp(48px,6vw,80px) clamp(20px,4vw,64px)', maxWidth: 1320, margin: '0 auto' }}>
                 <h2
                     style={{
-                        fontFamily: "'Fraunces', serif",
+                        fontFamily: "'Fraunces', 'Cairo', serif",
                         fontWeight: 600,
                         fontSize: 'clamp(26px,3.2vw,38px)',
                         textAlign: 'center',
@@ -567,7 +567,7 @@ export default function Accueil() {
                             >
                                 {pl.icon}
                             </div>
-                            <h3 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 24, margin: '0 0 16px' }}>{pl.title}</h3>
+                            <h3 style={{ fontFamily: "'Fraunces', 'Cairo', serif", fontWeight: 600, fontSize: 24, margin: '0 0 16px' }}>{pl.title}</h3>
                             {pl.lines.map((line) => (
                                 <p key={line} style={{ fontSize: 15.5, lineHeight: 1.7, color: '#3E5449', margin: '0 0 10px', paddingInlineStart: 18, position: 'relative' }}>
                                     <span style={{ position: 'absolute', insetInlineStart: 0, top: 9, width: 6, height: 6, borderRadius: '50%', background: '#7FA07E' }} />
@@ -583,7 +583,7 @@ export default function Accueil() {
             <section style={{ padding: 'clamp(48px,6vw,80px) clamp(20px,4vw,64px)', maxWidth: 1320, margin: '0 auto' }}>
                 <h2
                     style={{
-                        fontFamily: "'Fraunces', serif",
+                        fontFamily: "'Fraunces', 'Cairo', serif",
                         fontWeight: 600,
                         fontSize: 'clamp(26px,3.2vw,38px)',
                         textAlign: 'center',
@@ -597,7 +597,7 @@ export default function Accueil() {
                         <div key={st.num} style={{ flex: '1 1 200px', minWidth: 200, textAlign: 'center', padding: '0 12px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
                                 <span style={{ flex: 1, borderTop: '2px dashed transparent' }} />
-                                <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 44, color: '#D9C9A8', lineHeight: 1 }}>
+                                <span style={{ fontFamily: "'Fraunces', 'Cairo', serif", fontWeight: 600, fontSize: 44, color: '#D9C9A8', lineHeight: 1 }}>
                                     {st.num}
                                 </span>
                                 <span style={{ flex: 1, borderTop: `2px dashed ${st.connectorColor}` }} />
@@ -632,7 +632,7 @@ export default function Accueil() {
                 >
                     <img
                         src={praticienPhoto}
-                        alt="Portrait du praticien"
+                        alt={t('Portrait du praticien')}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                     />
                 </div>
@@ -652,7 +652,7 @@ export default function Accueil() {
                     >
                         {t('Le praticien')}
                     </span>
-                    <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(26px,3.2vw,36px)', margin: '0 0 20px' }}>
+                    <h2 style={{ fontFamily: "'Fraunces', 'Cairo', serif", fontWeight: 600, fontSize: 'clamp(26px,3.2vw,36px)', margin: '0 0 20px' }}>
                         {t('Médecin avant tout, coach ensuite')}
                     </h2>
                     <p style={{ fontSize: 16.5, lineHeight: 1.75, color: '#3E5449', margin: '0 0 24px', maxWidth: '56ch' }}>
@@ -700,7 +700,7 @@ export default function Accueil() {
                     }}
                 >
                     <div>
-                        <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(26px,3.2vw,36px)', margin: '0 0 20px' }}>
+                        <h2 style={{ fontFamily: "'Fraunces', 'Cairo', serif", fontWeight: 600, fontSize: 'clamp(26px,3.2vw,36px)', margin: '0 0 20px' }}>
                             {t('Un suivi qui continue entre les consultations')}
                         </h2>
                         <p style={{ fontSize: 16, lineHeight: 1.7, color: '#C9D6CC', margin: '0 0 26px', maxWidth: '48ch' }}>
@@ -760,7 +760,7 @@ export default function Accueil() {
             <section id="accompagnements" style={{ padding: 'clamp(48px,6vw,80px) clamp(20px,4vw,64px)', maxWidth: 1320, margin: '0 auto' }}>
                 <h2
                     style={{
-                        fontFamily: "'Fraunces', serif",
+                        fontFamily: "'Fraunces', 'Cairo', serif",
                         fontWeight: 600,
                         fontSize: 'clamp(26px,3.2vw,38px)',
                         textAlign: 'center',
@@ -805,7 +805,7 @@ export default function Accueil() {
                                     {t('Recommandé')}
                                 </span>
                             )}
-                            <h3 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 22, margin: '8px 0 10px' }}>{plan.title}</h3>
+                            <h3 style={{ fontFamily: "'Fraunces', 'Cairo', serif", fontWeight: 600, fontSize: 22, margin: '8px 0 10px' }}>{plan.title}</h3>
                             <p style={{ fontSize: 14.5, opacity: 0.85, margin: '0 0 22px', lineHeight: 1.5 }}>{plan.tagline}</p>
                             <div style={{ flex: 1 }}>
                                 {plan.features.map((f) => (
@@ -844,7 +844,7 @@ export default function Accueil() {
             <section id="faq" style={{ padding: 'clamp(48px,6vw,80px) clamp(20px,4vw,64px)', maxWidth: 820, margin: '0 auto' }}>
                 <h2
                     style={{
-                        fontFamily: "'Fraunces', serif",
+                        fontFamily: "'Fraunces', 'Cairo', serif",
                         fontWeight: 600,
                         fontSize: 'clamp(26px,3.2vw,38px)',
                         textAlign: 'center',
@@ -897,7 +897,7 @@ export default function Accueil() {
 
             {/* CTA FINAL */}
             <section id="rendez-vous" style={{ padding: 'clamp(56px,7vw,90px) clamp(20px,4vw,64px)', textAlign: 'center' }}>
-                <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(26px,3.4vw,40px)', margin: '0 0 22px' }}>
+                <h2 style={{ fontFamily: "'Fraunces', 'Cairo', serif", fontWeight: 600, fontSize: 'clamp(26px,3.4vw,40px)', margin: '0 0 22px' }}>
                     {t('Prêt·e à faire le premier pas ?')}
                 </h2>
                 <p style={{ fontSize: 16, color: '#3E5449', maxWidth: '46ch', margin: '0 auto 30px' }}>
