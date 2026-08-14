@@ -1,8 +1,10 @@
 import { Head } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
+import LanguageSwitcher from '../../Components/LanguageSwitcher';
 import LoginModal from '../../Components/LoginModal';
 import ParcoursModal from '../../Components/ParcoursModal';
 import PlanInterestModal from '../../Components/PlanInterestModal';
+import { useTranslation } from '../../i18n';
 import logo from '../../../images/fithealth.png';
 import heroPhoto from '../../../images/herosection1.png';
 import praticienPhoto from '../../../images/zou.png';
@@ -58,19 +60,23 @@ const IconCheck = () => (
     </svg>
 );
 
-const NAV_LINKS = [
-    { href: '#methode', label: 'Méthode' },
-    { href: '#accompagnements', label: 'Accompagnements' },
-    { href: '#praticien', label: 'Le praticien' },
-    { href: '#faq', label: 'Questions fréquentes' },
-];
+function navLinks(t) {
+    return [
+        { href: '#methode', label: t('Méthode') },
+        { href: '#accompagnements', label: t('Accompagnements') },
+        { href: '#praticien', label: t('Le praticien') },
+        { href: '#faq', label: t('Questions fréquentes') },
+    ];
+}
 
-const HERO_INDICATORS = [
-    { label: 'Énergie', pct: 72 },
-    { label: 'Sommeil', pct: 64 },
-    { label: 'Digestion', pct: 80 },
-    { label: 'Humeur', pct: 68 },
-];
+function heroIndicators(t) {
+    return [
+        { label: t('Énergie'), pct: 72 },
+        { label: t('Sommeil'), pct: 64 },
+        { label: t('Digestion'), pct: 80 },
+        { label: t('Humeur'), pct: 68 },
+    ];
+}
 
 const PROFILES = [
     {
@@ -201,6 +207,9 @@ const FAQ_RAW = [
 ];
 
 export default function Accueil() {
+    const { t } = useTranslation();
+    const NAV_LINKS = navLinks(t);
+    const HERO_INDICATORS = heroIndicators(t);
     const [isNarrow, setIsNarrow] = useState(() => typeof window !== 'undefined' && window.innerWidth < 900);
     const [navOpen, setNavOpen] = useState(false);
     const [faqOpen, setFaqOpen] = useState(0);
@@ -244,30 +253,34 @@ export default function Accueil() {
                                     </a>
                                 ))}
                             </div>
-                            <button
-                                type="button"
-                                onClick={() => setLoginOpen(true)}
-                                style={{
-                                    fontFamily: 'inherit',
-                                    textDecoration: 'none',
-                                    padding: '10px 22px',
-                                    border: '1.5px solid #7FA07E',
-                                    borderRadius: 999,
-                                    background: 'transparent',
-                                    color: '#1B3A2F',
-                                    fontWeight: 600,
-                                    fontSize: 14,
-                                    whiteSpace: 'nowrap',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                Connexion
-                            </button>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                                <LanguageSwitcher tone="light" />
+                                <button
+                                    type="button"
+                                    onClick={() => setLoginOpen(true)}
+                                    style={{
+                                        fontFamily: 'inherit',
+                                        textDecoration: 'none',
+                                        padding: '10px 22px',
+                                        border: '1.5px solid #7FA07E',
+                                        borderRadius: 999,
+                                        background: 'transparent',
+                                        color: '#1B3A2F',
+                                        fontWeight: 600,
+                                        fontSize: 14,
+                                        whiteSpace: 'nowrap',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    {t('Connexion')}
+                                </button>
+                            </div>
                         </>
                     )}
 
                     {isNarrow && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                            <LanguageSwitcher tone="light" />
                             <button
                                 type="button"
                                 onClick={() => setLoginOpen(true)}
@@ -285,7 +298,7 @@ export default function Accueil() {
                                     cursor: 'pointer',
                                 }}
                             >
-                                Connexion
+                                {t('Connexion')}
                             </button>
                             <button
                                 onClick={() => setNavOpen((v) => !v)}
@@ -357,7 +370,7 @@ export default function Accueil() {
                             marginBottom: 22,
                         }}
                     >
-                        Naturopathie &amp; coaching
+                        {t('Naturopathie & coaching')}
                     </span>
                     <h1
                         style={{
@@ -369,11 +382,10 @@ export default function Accueil() {
                             letterSpacing: '-0.01em',
                         }}
                     >
-                        Retrouvez votre énergie, durablement
+                        {t('Retrouvez votre énergie, durablement')}
                     </h1>
                     <p style={{ fontSize: 'clamp(16px,1.6vw,19px)', lineHeight: 1.6, color: '#3E5449', maxWidth: '46ch', margin: '0 0 34px' }}>
-                        Un accompagnement personnalisé qui allie mouvement et vitalité, avec un suivi entre chaque
-                        consultation — pour des résultats qui s'installent dans la durée.
+                        {t('Un accompagnement personnalisé qui allie mouvement et vitalité, avec un suivi entre chaque consultation — pour des résultats qui s\'installent dans la durée.')}
                     </p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 28, flexWrap: 'wrap' }}>
                         <a
@@ -389,7 +401,7 @@ export default function Accueil() {
                                 boxShadow: '0 12px 30px -14px rgba(27,58,47,0.5)',
                             }}
                         >
-                            Réserver un premier échange
+                            {t('Réserver un premier échange')}
                         </a>
                         <a
                             href="#methode"
@@ -402,7 +414,7 @@ export default function Accueil() {
                                 paddingBottom: 2,
                             }}
                         >
-                            Découvrir la méthode →
+                            {t('Découvrir la méthode →')}
                         </a>
                     </div>
                 </div>
@@ -424,7 +436,7 @@ export default function Accueil() {
                     <div
                         style={{
                             position: 'absolute',
-                            left: 'clamp(-16px,-3vw,10px)',
+                            insetInlineStart: 'clamp(-16px,-3vw,10px)',
                             bottom: 'clamp(16px,4vw,40px)',
                             background: '#FFFFFF',
                             borderRadius: 16,
@@ -443,7 +455,7 @@ export default function Accueil() {
                                 letterSpacing: '0.04em',
                             }}
                         >
-                            Votre suivi · semaine 6
+                            {t('Votre suivi · semaine 6')}
                         </p>
                         {HERO_INDICATORS.map((ind) => (
                             <div key={ind.label} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
@@ -451,7 +463,7 @@ export default function Accueil() {
                                 <div style={{ flex: 1, height: 6, borderRadius: 999, background: '#EDE6D6', overflow: 'hidden' }}>
                                     <div style={{ height: '100%', borderRadius: 999, background: '#7FA07E', width: `${ind.pct}%` }} />
                                 </div>
-                                <span style={{ fontSize: 12, color: '#7A8F81', width: 30, textAlign: 'right' }}>{ind.pct}%</span>
+                                <span style={{ fontSize: 12, color: '#7A8F81', width: 30, textAlign: 'end' }}>{ind.pct}%</span>
                             </div>
                         ))}
                     </div>
