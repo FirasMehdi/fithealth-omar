@@ -44,7 +44,7 @@ export default function Sidebar() {
 
             <aside
                 className={
-                    'fixed inset-y-0 start-0 z-50 flex h-screen w-60 shrink-0 flex-col bg-forest px-4 py-6 transition-transform duration-200 lg:sticky lg:top-0 lg:translate-x-0 ' +
+                    'fixed inset-y-0 start-0 z-50 flex h-screen w-60 shrink-0 flex-col bg-forest px-4 py-6 transition-transform duration-200 lg:sticky lg:start-auto lg:top-0 lg:translate-x-0 ' +
                     (open ? 'translate-x-0' : '-translate-x-full rtl:translate-x-full')
                 }
             >
